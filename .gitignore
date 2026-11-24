@@ -13,3 +13,7 @@ Thumbs.db
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# Copiados da raiz no prepack do pacote
+packages/sakura-ui/README.md
+packages/sakura-ui/LICENSE

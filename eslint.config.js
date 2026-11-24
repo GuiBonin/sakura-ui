@@ -48,6 +48,10 @@ export default tseslint.config(
     },
   },
   {
+    files: ['**/*.{js,mjs,cjs}'],
+    languageOptions: { globals: { ...globals.node } },
+  },
+  {
     files: ['**/*.test.{ts,tsx}', '**/test/**'],
     languageOptions: { globals: { ...globals.vitest } },
   },
