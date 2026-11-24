@@ -1,0 +1,19 @@
+name: Sugerir uma melhoria
+description: Um componente novo, uma prop ou uma ideia.
+labels: [melhoria]
+body:
+  - type: textarea
+    id: problema
+    attributes:
+      label: Qual problema isso resolve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposta
+    attributes:
+      label: Como você imagina a solução?
+      description: Um exemplo de uso da API ajuda bastante.
+  - type: textarea
+    id: alternativas
+    attributes:
+      label: Alternativas que você considerou

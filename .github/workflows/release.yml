@@ -1,0 +1,54 @@
+name: Release
+
+# Publica no npm quando uma tag de versão (v1.2.3) é enviada.
+# Usa trusted publishing (OIDC): nenhum token fica no repositório.
+# Configuração única em npmjs.com > pacote > Settings > Trusted publishing,
+# apontando para GuiBonin/sakura-ui e o arquivo release.yml.
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: write # criar o release no GitHub
+  id-token: write # trusted publishing e provenance no npm
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publicar no npm
+    runs-on: ubuntu-latest
+    environment: npm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          # Node 24 traz npm 11, necessário para trusted publishing.
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          cache: npm
+      - run: npm ci
+
+      - name: Conferir se a tag bate com a versão do pacote
+        run: |
+          VERSION=$(node -p "require('./packages/sakura-ui/package.json').version")
+          if [ "v$VERSION" != "$GITHUB_REF_NAME" ]; then
+            echo "Tag $GITHUB_REF_NAME diferente da versão v$VERSION do package.json"
+            exit 1
+          fi
+
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run check:package
+
+      - name: Publicar
+        run: npm publish -w @guibonin/sakura-ui --provenance --access public
+
+      - name: Criar release no GitHub
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes

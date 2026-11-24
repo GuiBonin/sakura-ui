@@ -6,4 +6,18 @@ export default defineConfig({
   base: './',
   plugins: [react()],
   resolve: { alias: aliases },
+  build: {
+    rollupOptions: {
+      output: {
+        // Bibliotecas de terceiros em arquivos separados: cache melhor entre deploys.
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return undefined;
+          if (id.includes('prism-react-renderer')) return 'prism';
+          if (id.includes('framer-motion') || id.includes('motion-')) return 'motion';
+          if (id.includes('lucide-react')) return 'icons';
+          return 'vendor';
+        },
+      },
+    },
+  },
 });

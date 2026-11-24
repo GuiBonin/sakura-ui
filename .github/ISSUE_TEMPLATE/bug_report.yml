@@ -1,0 +1,34 @@
+name: Reportar um bug
+description: Algo não funciona como deveria.
+labels: [bug]
+body:
+  - type: textarea
+    id: descricao
+    attributes:
+      label: O que aconteceu?
+      description: Descreva o problema e o que você esperava que acontecesse.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduzir
+    attributes:
+      label: Como reproduzir
+      description: Passos ou um link para um exemplo mínimo (CodeSandbox, StackBlitz).
+      placeholder: |
+        1. Renderize <Select options={...} /> dentro de um <Modal>
+        2. Abra a lista e aperte Esc
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: versao
+    attributes:
+      label: Versão da Sakura UI
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: input
+    id: ambiente
+    attributes:
+      label: Navegador, React e leitor de tela (se for o caso)
+      placeholder: Chrome 140, React 19, NVDA 2025.1
