@@ -1,0 +1,118 @@
+.sk-checkbox {
+  --sk-checkbox-size: 1.25rem;
+
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--sk-space-3);
+  font-family: var(--sk-font-sans);
+  color: var(--sk-fg);
+}
+
+.sk-checkbox[data-size='sm'] {
+  --sk-checkbox-size: 1rem;
+}
+
+.sk-checkbox[data-disabled] {
+  opacity: 0.55;
+}
+
+.sk-checkbox__control {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  width: var(--sk-checkbox-size);
+  height: var(--sk-checkbox-size);
+  margin-top: 0.1rem;
+}
+
+/* O input nativo cobre a caixa: recebe cliques e foco, mas fica invisível. */
+.sk-checkbox__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.sk-checkbox__input:disabled {
+  cursor: not-allowed;
+}
+
+.sk-checkbox__box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 1.5px solid var(--sk-border-strong);
+  border-radius: var(--sk-radius-sm);
+  background: var(--sk-surface);
+  color: var(--sk-accent-fg);
+  transition:
+    background-color var(--sk-duration-fast) var(--sk-ease-out),
+    border-color var(--sk-duration-fast) var(--sk-ease-out),
+    box-shadow var(--sk-duration-fast) var(--sk-ease-out);
+}
+
+.sk-checkbox__check,
+.sk-checkbox__dash {
+  position: absolute;
+  width: 75%;
+  height: 75%;
+  opacity: 0;
+  transform: scale(0.4);
+  transition:
+    opacity var(--sk-duration-fast) var(--sk-ease-out),
+    transform var(--sk-duration-normal) var(--sk-ease-out);
+}
+
+.sk-checkbox__input:hover:not(:disabled) + .sk-checkbox__box {
+  border-color: var(--sk-accent);
+}
+
+.sk-checkbox__input:focus-visible + .sk-checkbox__box {
+  outline: 2px solid var(--sk-ring);
+  outline-offset: 2px;
+}
+
+.sk-checkbox__input:checked + .sk-checkbox__box,
+.sk-checkbox__input:indeterminate + .sk-checkbox__box {
+  border-color: var(--sk-accent);
+  background: var(--sk-accent);
+}
+
+.sk-checkbox__input:checked:not(:indeterminate) + .sk-checkbox__box .sk-checkbox__check,
+.sk-checkbox__input:indeterminate + .sk-checkbox__box .sk-checkbox__dash {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.sk-checkbox__input[aria-invalid='true'] + .sk-checkbox__box {
+  border-color: var(--sk-danger);
+}
+
+.sk-checkbox__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.sk-checkbox__label {
+  font-size: var(--sk-text-sm);
+  font-weight: var(--sk-weight-medium);
+  line-height: 1.45;
+  cursor: pointer;
+}
+
+.sk-checkbox[data-disabled] .sk-checkbox__label {
+  cursor: not-allowed;
+}
+
+.sk-checkbox__description {
+  color: var(--sk-fg-muted);
+  font-size: var(--sk-text-xs);
+  line-height: 1.4;
+}
