@@ -1,0 +1,89 @@
+.sk-badge {
+  --sk-badge-solid: var(--sk-fg-muted);
+  --sk-badge-solid-fg: var(--sk-surface);
+  --sk-badge-soft: var(--sk-surface-2);
+  --sk-badge-soft-fg: var(--sk-fg);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sk-space-1);
+  height: 1.5rem;
+  padding: 0 var(--sk-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--sk-radius-full);
+  font-family: var(--sk-font-sans);
+  font-size: var(--sk-text-xs);
+  font-weight: var(--sk-weight-semibold);
+  line-height: 1;
+  white-space: nowrap;
+  background: var(--sk-badge-soft);
+  color: var(--sk-badge-soft-fg);
+}
+
+.sk-badge[data-size='sm'] {
+  height: 1.25rem;
+  padding: 0 0.375rem;
+  font-size: 0.6875rem;
+}
+
+.sk-badge[data-appearance='solid'] {
+  background: var(--sk-badge-solid);
+  color: var(--sk-badge-solid-fg);
+}
+
+.sk-badge[data-appearance='outline'] {
+  background: transparent;
+  color: var(--sk-badge-soft-fg);
+  border-color: currentColor;
+}
+
+.sk-badge[data-tone='primary'] {
+  --sk-badge-solid: var(--sk-primary);
+  --sk-badge-solid-fg: var(--sk-primary-fg);
+  --sk-badge-soft: var(--sk-primary-soft);
+  --sk-badge-soft-fg: var(--sk-primary-soft-fg);
+}
+
+.sk-badge[data-tone='accent'] {
+  --sk-badge-solid: var(--sk-accent);
+  --sk-badge-solid-fg: var(--sk-accent-fg);
+  --sk-badge-soft: var(--sk-accent-soft);
+  --sk-badge-soft-fg: var(--sk-accent-soft-fg);
+}
+
+.sk-badge[data-tone='success'] {
+  --sk-badge-solid: var(--sk-success);
+  --sk-badge-solid-fg: var(--sk-success-fg);
+  --sk-badge-soft: var(--sk-success-soft);
+  --sk-badge-soft-fg: var(--sk-success-soft-fg);
+}
+
+.sk-badge[data-tone='warning'] {
+  --sk-badge-solid: var(--sk-warning);
+  --sk-badge-solid-fg: var(--sk-warning-fg);
+  --sk-badge-soft: var(--sk-warning-soft);
+  --sk-badge-soft-fg: var(--sk-warning-soft-fg);
+}
+
+.sk-badge[data-tone='danger'] {
+  --sk-badge-solid: var(--sk-danger);
+  --sk-badge-solid-fg: var(--sk-danger-fg);
+  --sk-badge-soft: var(--sk-danger-soft);
+  --sk-badge-soft-fg: var(--sk-danger-soft-fg);
+}
+
+.sk-badge__dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: var(--sk-radius-full);
+  background: currentColor;
+}
+
+.sk-badge__icon {
+  display: inline-flex;
+}
+
+.sk-badge__icon > svg {
+  width: 0.85rem;
+  height: 0.85rem;
+}

@@ -1,0 +1,126 @@
+.sk-button {
+  --sk-button-bg: var(--sk-primary);
+  --sk-button-bg-hover: var(--sk-primary-hover);
+  --sk-button-bg-active: var(--sk-primary-active);
+  --sk-button-fg: var(--sk-primary-fg);
+  --sk-button-border: transparent;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sk-space-2);
+  min-height: 2.5rem;
+  padding: 0 var(--sk-space-4);
+  border: 1px solid var(--sk-button-border);
+  border-radius: var(--sk-radius-md);
+  background: var(--sk-button-bg);
+  color: var(--sk-button-fg);
+  font-family: var(--sk-font-sans);
+  font-size: var(--sk-text-sm);
+  font-weight: var(--sk-weight-semibold);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--sk-duration-fast) var(--sk-ease-out),
+    border-color var(--sk-duration-fast) var(--sk-ease-out),
+    color var(--sk-duration-fast) var(--sk-ease-out),
+    box-shadow var(--sk-duration-normal) var(--sk-ease-out),
+    transform var(--sk-duration-fast) var(--sk-ease-out);
+}
+
+.sk-button:hover:not(:disabled, [data-loading]) {
+  background: var(--sk-button-bg-hover);
+}
+
+.sk-button:active:not(:disabled, [data-loading]) {
+  background: var(--sk-button-bg-active);
+  transform: scale(0.97);
+}
+
+.sk-button:focus-visible {
+  outline: 2px solid var(--sk-ring);
+  outline-offset: 2px;
+}
+
+.sk-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sk-button[data-loading] {
+  cursor: progress;
+}
+
+.sk-button[data-size='sm'] {
+  min-height: 2rem;
+  padding: 0 var(--sk-space-3);
+  font-size: var(--sk-text-xs);
+  border-radius: var(--sk-radius-sm);
+}
+
+.sk-button[data-size='lg'] {
+  min-height: 3rem;
+  padding: 0 var(--sk-space-6);
+  font-size: var(--sk-text-md);
+  border-radius: var(--sk-radius-lg);
+}
+
+.sk-button[data-icon-only] {
+  padding: 0;
+  aspect-ratio: 1;
+}
+
+.sk-button[data-full-width] {
+  width: 100%;
+}
+
+.sk-button[data-variant='solid'] {
+  box-shadow: var(--sk-shadow-sm);
+}
+
+.sk-button[data-variant='soft'] {
+  --sk-button-bg: var(--sk-primary-soft);
+  --sk-button-bg-hover: color-mix(in srgb, var(--sk-primary-soft) 80%, var(--sk-primary));
+  --sk-button-bg-active: color-mix(in srgb, var(--sk-primary-soft) 65%, var(--sk-primary));
+  --sk-button-fg: var(--sk-primary-soft-fg);
+}
+
+.sk-button[data-variant='outline'] {
+  --sk-button-bg: transparent;
+  --sk-button-bg-hover: var(--sk-surface-2);
+  --sk-button-bg-active: var(--sk-surface-3);
+  --sk-button-fg: var(--sk-fg);
+  --sk-button-border: var(--sk-border-strong);
+}
+
+.sk-button[data-variant='ghost'] {
+  --sk-button-bg: transparent;
+  --sk-button-bg-hover: var(--sk-surface-2);
+  --sk-button-bg-active: var(--sk-surface-3);
+  --sk-button-fg: var(--sk-fg);
+}
+
+.sk-button[data-variant='danger'] {
+  --sk-button-bg: var(--sk-danger);
+  --sk-button-bg-hover: var(--sk-danger-hover);
+  --sk-button-bg-active: var(--sk-danger-hover);
+  --sk-button-fg: var(--sk-danger-fg);
+}
+
+.sk-button__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.sk-button__icon > svg {
+  width: 1.1em;
+  height: 1.1em;
+}
+
+.sk-button__spinner {
+  color: currentColor;
+}

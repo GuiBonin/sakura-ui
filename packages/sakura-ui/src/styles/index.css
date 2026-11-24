@@ -1,2 +1,9 @@
 @import './tokens.css';
 @import './base.css';
+@import '../components/Spinner/Spinner.css';
+@import '../components/Button/Button.css';
+@import '../components/Badge/Badge.css';
+@import '../components/Avatar/Avatar.css';
+@import '../components/Card/Card.css';
+@import '../components/Skeleton/Skeleton.css';
+@import '../components/ProgressBar/ProgressBar.css';
