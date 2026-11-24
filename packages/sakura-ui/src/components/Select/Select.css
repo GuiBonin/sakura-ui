@@ -1,7 +1,3 @@
-.sk-select__anchor {
-  position: relative;
-}
-
 .sk-select__trigger {
   justify-content: space-between;
   text-align: left;
@@ -41,11 +37,9 @@
 }
 
 .sk-select__listbox {
-  position: absolute;
-  top: calc(100% + var(--sk-space-1));
-  left: 0;
-  right: 0;
+  position: fixed;
   z-index: var(--sk-z-dropdown);
+  max-width: calc(100vw - 1rem);
   max-height: 16rem;
   margin: 0;
   padding: var(--sk-space-1);
@@ -55,7 +49,12 @@
   border-radius: var(--sk-radius-md);
   background: var(--sk-surface);
   box-shadow: var(--sk-shadow-lg);
+  font-family: var(--sk-font-sans);
   transform-origin: top center;
+}
+
+.sk-select__listbox[data-side='top'] {
+  transform-origin: bottom center;
 }
 
 .sk-select__option {

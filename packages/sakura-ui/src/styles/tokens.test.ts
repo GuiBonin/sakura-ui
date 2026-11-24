@@ -108,3 +108,18 @@ describe('paleta da marca', () => {
     for (const key of semantic) expect(darkOnly).toHaveProperty(key);
   });
 });
+
+describe('camadas (z-index)', () => {
+  const z = (name: string) => Number(light[`--sk-z-${name}`]);
+
+  it('menus e listas ficam acima do modal, porque podem abrir dentro dele', () => {
+    expect(z('dropdown')).toBeGreaterThan(z('modal'));
+  });
+
+  it('segue a ordem overlay < modal < dropdown < toast < tooltip', () => {
+    const order = ['overlay', 'modal', 'dropdown', 'toast', 'tooltip'].map(z);
+    expect(order.every((value) => Number.isFinite(value))).toBe(true);
+    expect([...order].sort((a, b) => a - b)).toEqual(order);
+    expect(new Set(order).size).toBe(order.length);
+  });
+});

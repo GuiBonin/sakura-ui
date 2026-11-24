@@ -87,6 +87,32 @@ describe('useEscape', () => {
     expect(handler).not.toHaveBeenCalled();
   });
 
+  it('ignora Esc já consumido por outro componente', () => {
+    const handler = vi.fn();
+    renderHook(() => useEscape(handler));
+    const event = new KeyboardEvent('keydown', { key: 'Escape', cancelable: true });
+    event.preventDefault();
+    document.dispatchEvent(event);
+    expect(handler).not.toHaveBeenCalled();
+  });
+
+  it('com capture roda antes dos ouvintes comuns e pode consumir o Esc', () => {
+    const order: string[] = [];
+    renderHook(() => useEscape(() => order.push('comum')));
+    renderHook(() =>
+      useEscape(
+        (event) => {
+          order.push('captura');
+          event.preventDefault();
+        },
+        true,
+        { capture: true },
+      ),
+    );
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(order).toEqual(['captura']);
+  });
+
   it('usa sempre o handler mais recente', () => {
     const first = vi.fn();
     const second = vi.fn();

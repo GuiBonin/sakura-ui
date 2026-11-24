@@ -90,10 +90,16 @@ export function Tooltip({
     }
   }, [disabled]);
 
-  useEscape(() => {
-    clear();
-    setOpen(false);
-  }, open);
+  // Captura e consome o Esc: dentro de um modal, o primeiro Esc fecha só a dica.
+  useEscape(
+    (event) => {
+      event.preventDefault();
+      clear();
+      setOpen(false);
+    },
+    open && !disabled,
+    { capture: true },
+  );
 
   if (!isValidElement(children)) return children;
   const childProps = children.props as TriggerProps;

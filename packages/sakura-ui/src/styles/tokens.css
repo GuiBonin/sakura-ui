@@ -51,12 +51,12 @@
   --sk-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --sk-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* Camadas */
-  --sk-z-dropdown: 1000;
+  /* Camadas. Listas e menus ficam acima do modal porque podem abrir dentro dele. */
   --sk-z-overlay: 1100;
   --sk-z-modal: 1200;
-  --sk-z-toast: 1300;
-  --sk-z-tooltip: 1400;
+  --sk-z-dropdown: 1300;
+  --sk-z-toast: 1400;
+  --sk-z-tooltip: 1500;
 
   /* Tema claro (padrão) */
   color-scheme: light;

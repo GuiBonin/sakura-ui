@@ -13,8 +13,10 @@ import {
 } from 'react';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { useControllableState } from '../../hooks/useControllableState';
+import { useFloatingPosition } from '../../hooks/useFloatingPosition';
 import { cx } from '../../utils/cx';
 import { transitions } from '../../utils/motion';
+import { Portal } from '../../utils/Portal';
 import { mergeRefs } from '../../utils/refs';
 import { FieldLabel, FieldMessages, getFieldIds } from '../Field/field';
 
@@ -176,7 +178,9 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, activeIndex]);
 
-  useClickOutside([rootRef], close, open);
+  // A lista fica num portal, então "fora" é fora do campo e fora da lista.
+  useClickOutside([rootRef, listRef], close, open);
+  const { position } = useFloatingPosition(triggerRef, listRef, open, 'bottom-start', 4);
 
   const initialIndex =
     selectedIndex >= 0 && !options[selectedIndex]!.disabled ? selectedIndex : firstEnabled;
@@ -267,47 +271,50 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
           {label}
         </FieldLabel>
       )}
-      <div className="sk-select__anchor">
-        <button
-          ref={mergeRefs(triggerRef, ref)}
-          id={id}
-          type="button"
-          role="combobox"
-          className={cx('sk-control', 'sk-select__trigger', className)}
-          data-size={size}
-          data-invalid={invalid || undefined}
-          data-disabled={disabled || undefined}
-          data-focused={open || undefined}
-          data-placeholder={!selected || undefined}
-          aria-labelledby={label ? `${labelId} ${valueId}` : undefined}
-          aria-haspopup="listbox"
-          aria-expanded={open}
-          aria-controls={listboxId}
-          aria-activedescendant={open && activeIndex >= 0 ? optionId(activeIndex) : undefined}
-          aria-describedby={describedBy}
-          aria-invalid={invalid || undefined}
-          aria-required={required || undefined}
-          disabled={disabled}
-          onKeyDown={handleKeyDown}
-          onClick={(event) => {
-            onClick?.(event);
-            if (event.defaultPrevented) return;
-            if (open) close();
-            else openList(initialIndex);
-          }}
-          onBlur={(event) => {
-            onBlur?.(event);
-            // Fecha quando o foco sai do componente (clique em opção não tira o foco).
-            if (open && !rootRef.current?.contains(event.relatedTarget as Node | null)) close();
-          }}
-          {...props}
-        >
-          <span id={valueId} className="sk-select__value">
-            {selected ? selected.label : placeholder}
-          </span>
-          <ChevronDown className="sk-select__chevron" aria-hidden="true" />
-        </button>
+      <button
+        ref={mergeRefs(triggerRef, ref)}
+        id={id}
+        type="button"
+        role="combobox"
+        className={cx('sk-control', 'sk-select__trigger', className)}
+        data-size={size}
+        data-invalid={invalid || undefined}
+        data-disabled={disabled || undefined}
+        data-focused={open || undefined}
+        data-placeholder={!selected || undefined}
+        aria-labelledby={label ? `${labelId} ${valueId}` : undefined}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={listboxId}
+        aria-activedescendant={open && activeIndex >= 0 ? optionId(activeIndex) : undefined}
+        aria-describedby={describedBy}
+        aria-invalid={invalid || undefined}
+        aria-required={required || undefined}
+        disabled={disabled}
+        onKeyDown={handleKeyDown}
+        onClick={(event) => {
+          onClick?.(event);
+          if (event.defaultPrevented) return;
+          if (open) close();
+          else openList(initialIndex);
+        }}
+        onBlur={(event) => {
+          onBlur?.(event);
+          // Fecha quando o foco sai do componente (clique em opção não tira o foco).
+          const next = event.relatedTarget as Node | null;
+          if (open && !rootRef.current?.contains(next) && !listRef.current?.contains(next)) {
+            close();
+          }
+        }}
+        {...props}
+      >
+        <span id={valueId} className="sk-select__value">
+          {selected ? selected.label : placeholder}
+        </span>
+        <ChevronDown className="sk-select__chevron" aria-hidden="true" />
+      </button>
 
+      <Portal>
         <AnimatePresence>
           {open && (
             <motion.ul
@@ -318,6 +325,12 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
               aria-label={label ? undefined : (props['aria-label'] ?? placeholder)}
               tabIndex={-1}
               className="sk-select__listbox"
+              data-side={position.side}
+              style={{
+                top: position.top,
+                left: position.left,
+                minWidth: position.referenceWidth || undefined,
+              }}
               initial={{ opacity: 0, y: -4, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -4, scale: 0.98, transition: transitions.fast }}
@@ -359,7 +372,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
             </motion.ul>
           )}
         </AnimatePresence>
-      </div>
+      </Portal>
 
       {name && <input type="hidden" name={name} value={value ?? ''} />}
       <FieldMessages hint={hint} error={error} hintId={hintId} errorId={errorId} />
