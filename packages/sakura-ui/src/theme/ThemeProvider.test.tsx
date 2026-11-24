@@ -1,7 +1,9 @@
-import { act, render, renderHook, screen } from '@testing-library/react';
+import { act, render, renderHook, screen, waitFor } from '@testing-library/react';
+import { useReducedMotionConfig } from 'framer-motion';
 import userEvent from '@testing-library/user-event';
 import { useState, type ReactNode } from 'react';
-import { PREFERS_DARK, setMediaQuery } from '../../test/matchMedia';
+import { PREFERS_DARK, PREFERS_REDUCED_MOTION, setMediaQuery } from '../../test/matchMedia';
+import { Modal } from '../components/Modal/Modal';
 import { SakuraProvider } from './SakuraProvider';
 import { ThemeProvider, useTheme, type ThemeMode } from './ThemeProvider';
 
@@ -212,5 +214,34 @@ describe('SakuraProvider', () => {
     const { result } = renderHook(() => useTheme(), { wrapper });
     expect(result.current.resolvedTheme).toBe('dark');
     expect(html()).toHaveAttribute('data-theme', 'dark');
+  });
+
+  it.each([
+    ['always', true],
+    ['never', false],
+  ] as const)('reducedMotion="%s" configura o Framer Motion', (mode, expected) => {
+    const { result } = renderHook(() => useReducedMotionConfig(), {
+      wrapper: ({ children }) => <SakuraProvider reducedMotion={mode}>{children}</SakuraProvider>,
+    });
+    expect(result.current).toBe(expected);
+  });
+
+  it('com movimento reduzido no sistema, overlays continuam abrindo e fechando', async () => {
+    const user = userEvent.setup();
+    setMediaQuery(PREFERS_REDUCED_MOTION, true);
+    function App() {
+      const [open, setOpen] = useState(true);
+      return (
+        <SakuraProvider>
+          <Modal open={open} onClose={() => setOpen(false)} title="Calmo">
+            texto
+          </Modal>
+        </SakuraProvider>
+      );
+    }
+    render(<App />);
+    expect(await screen.findByRole('dialog', { name: 'Calmo' })).toBeInTheDocument();
+    await user.keyboard('{Escape}');
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
   });
 });

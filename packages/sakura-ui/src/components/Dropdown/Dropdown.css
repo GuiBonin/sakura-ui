@@ -1,0 +1,95 @@
+.sk-dropdown {
+  position: fixed;
+  z-index: var(--sk-z-dropdown);
+  min-width: 12rem;
+  max-width: calc(100vw - 1rem);
+  max-height: min(24rem, calc(100dvh - 1rem));
+  overflow-y: auto;
+  padding: var(--sk-space-1);
+  border: 1px solid var(--sk-border);
+  border-radius: var(--sk-radius-md);
+  background: var(--sk-surface);
+  color: var(--sk-fg);
+  box-shadow: var(--sk-shadow-lg);
+  font-family: var(--sk-font-sans);
+  font-size: var(--sk-text-sm);
+  outline: none;
+}
+
+.sk-dropdown[data-side='top'] {
+  transform-origin: bottom left;
+}
+
+.sk-dropdown[data-side='bottom'] {
+  transform-origin: top left;
+}
+
+.sk-dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: var(--sk-space-2);
+  padding: var(--sk-space-2) var(--sk-space-3);
+  border-radius: var(--sk-radius-sm);
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+}
+
+.sk-dropdown__item[data-active] {
+  background: var(--sk-primary-soft);
+  color: var(--sk-primary-soft-fg);
+}
+
+.sk-dropdown__item:focus-visible {
+  outline: 2px solid var(--sk-ring);
+  outline-offset: -2px;
+}
+
+.sk-dropdown__item[data-danger] {
+  color: var(--sk-danger);
+}
+
+.sk-dropdown__item[data-danger][data-active] {
+  background: var(--sk-danger-soft);
+  color: var(--sk-danger-soft-fg);
+}
+
+.sk-dropdown__item[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sk-dropdown__icon {
+  display: inline-flex;
+  color: inherit;
+}
+
+.sk-dropdown__icon > svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.sk-dropdown__text {
+  flex: 1;
+}
+
+.sk-dropdown__shortcut {
+  color: var(--sk-fg-muted);
+  font-family: var(--sk-font-mono);
+  font-size: var(--sk-text-xs);
+}
+
+.sk-dropdown__separator {
+  height: 1px;
+  margin: var(--sk-space-1) calc(var(--sk-space-1) * -1);
+  background: var(--sk-border);
+}
+
+.sk-dropdown__label {
+  padding: var(--sk-space-2) var(--sk-space-3) var(--sk-space-1);
+  color: var(--sk-fg-muted);
+  font-size: var(--sk-text-xs);
+  font-weight: var(--sk-weight-semibold);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
