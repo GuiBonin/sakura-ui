@@ -8,9 +8,23 @@
 [![npm](https://img.shields.io/npm/v/@guibonin/sakura-ui?color=d88ca5)](https://www.npmjs.com/package/@guibonin/sakura-ui)
 [![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-9265b5)](./LICENSE)
 
-[Documentação](https://guibonin.github.io/sakura-ui/) ·
+**[Ver o site ao vivo →](https://guibonin.github.io/sakura-ui/)**
+
 [Começando](https://guibonin.github.io/sakura-ui/#/comecando) ·
-[Componentes](https://guibonin.github.io/sakura-ui/#/componentes/button)
+[Componentes](https://guibonin.github.io/sakura-ui/#/componentes/button) ·
+[Temas](https://guibonin.github.io/sakura-ui/#/temas) ·
+[Acessibilidade](https://guibonin.github.io/sakura-ui/#/acessibilidade)
+
+<a href="https://guibonin.github.io/sakura-ui/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/GuiBonin/sakura-ui/main/.github/assets/preview-dark.png" />
+    <img
+      src="https://raw.githubusercontent.com/GuiBonin/sakura-ui/main/.github/assets/preview-light.png"
+      alt="Página inicial da Sakura UI: título 'Componentes React que florescem em qualquer interface', botões Começar agora e Ver componentes e o comando de instalação"
+      width="860"
+    />
+  </picture>
+</a>
 
 </div>
 
@@ -132,7 +146,7 @@ npm run build          # build da biblioteca e do site
 npm run check:package  # valida o pacote como seria publicado
 ```
 
-Quer contribuir? Leia o [guia de contribuição](./CONTRIBUTING.md).
+Quer contribuir? Leia o [guia de contribuição](./CONTRIBUTING.md). Para reportar uma vulnerabilidade, siga a [política de segurança](./SECURITY.md).
 
 ## Licença
 

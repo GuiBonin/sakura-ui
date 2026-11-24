@@ -65,6 +65,7 @@
 
 .sk-tabs__tab[data-state='active'] {
   color: var(--sk-fg);
+  font-weight: var(--sk-weight-semibold);
 }
 
 .sk-tabs__tab:focus-visible {
@@ -91,8 +92,8 @@
   right: var(--sk-space-2);
   bottom: -1px;
   left: var(--sk-space-2);
-  height: 2px;
-  border-radius: 2px;
+  height: 3px;
+  border-radius: 3px;
   background: linear-gradient(90deg, var(--sk-sakura), var(--sk-violet));
 }
 
@@ -101,7 +102,7 @@
   right: -1px;
   bottom: var(--sk-space-2);
   left: auto;
-  width: 2px;
+  width: 3px;
   height: auto;
 }
 

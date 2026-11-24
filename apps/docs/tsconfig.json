@@ -7,5 +7,5 @@
       "@guibonin/sakura-ui": ["../../packages/sakura-ui/src/index.ts"]
     }
   },
-  "include": ["src", "test", "vite.config.ts", "vitest.config.ts", "aliases.ts"]
+  "include": ["src", "test", "vite.config.ts", "vitest.config.ts", "aliases.ts", "csp.ts"]
 }

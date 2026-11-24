@@ -1,10 +1,11 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { aliases } from './aliases.ts';
+import { contentSecurityPolicy } from './csp.ts';
 
 export default defineConfig({
   base: './',
-  plugins: [react()],
+  plugins: [react(), contentSecurityPolicy()],
   resolve: { alias: aliases },
   build: {
     rollupOptions: {

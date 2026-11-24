@@ -33,6 +33,12 @@ button:focus-visible,
   outline-offset: 2px;
 }
 
+/* Alvos de foco programático (skip link, troca de rota) não mostram anel. */
+[tabindex='-1']:focus,
+[tabindex='-1']:focus-visible {
+  outline: none;
+}
+
 code {
   font-family: var(--sk-font-mono);
   font-size: 0.875em;
@@ -229,6 +235,10 @@ h3 {
   font-weight: var(--sk-weight-semibold);
 }
 
+.docs-sidebar--mobile-only {
+  display: none;
+}
+
 .docs-main {
   min-width: 0;
   padding: var(--sk-space-8) 0 4rem;
@@ -266,12 +276,17 @@ h3 {
 
   .docs-sidebar {
     position: fixed;
-    inset: 4rem 0 0;
+    top: 4rem;
+    right: 0;
+    left: 0;
     z-index: 90;
     display: none;
+    align-self: auto;
+    height: calc(100dvh - 4rem);
     max-height: none;
     padding: var(--sk-space-4);
     background: var(--sk-bg);
+    overscroll-behavior: contain;
   }
 
   .docs-sidebar[data-open] {
@@ -394,6 +409,10 @@ h3 {
   font-size: var(--sk-text-xs);
 }
 
+.docs-example .docs-code__pre {
+  max-height: 24rem;
+}
+
 .docs-code__pre {
   margin: 0;
   padding: var(--sk-space-4);
@@ -489,6 +508,7 @@ h3 {
 
 .docs-table {
   width: 100%;
+  min-width: 40rem;
   border-collapse: collapse;
   font-size: var(--sk-text-sm);
 }
@@ -613,6 +633,8 @@ h3 {
   position: absolute;
   inset: 0;
   z-index: -2;
+  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
+  mask-image: linear-gradient(to bottom, #000 60%, transparent);
   background:
     radial-gradient(
       60% 50% at 20% 10%,
@@ -703,6 +725,9 @@ h3 {
 }
 
 .home-install code {
+  padding: 0;
+  background: transparent;
+  color: inherit;
   overflow-x: auto;
   white-space: nowrap;
   font-size: var(--sk-text-sm);
@@ -776,9 +801,12 @@ h3 {
   display: flex;
 }
 
-.home-avatars > * + * {
-  margin-left: -0.5rem;
+.home-avatars > * {
   box-shadow: 0 0 0 2px var(--sk-surface);
+}
+
+.home-avatars > * + * {
+  margin-left: -0.25rem;
 }
 
 .home-badges {
@@ -828,4 +856,17 @@ h3 {
 .home-feature__icon svg {
   width: 1.35rem;
   height: 1.35rem;
+}
+
+/* Depois das regras base da home para ter prioridade. */
+@media (max-width: 860px) {
+  .home-install {
+    align-items: flex-start;
+  }
+
+  .home-install code {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    overflow-x: visible;
+  }
 }
