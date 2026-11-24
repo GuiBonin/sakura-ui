@@ -28,3 +28,41 @@ export { useScrollLock } from './hooks/useScrollLock';
 export { cx, type ClassValue } from './utils/cx';
 export { mergeRefs } from './utils/refs';
 export { Portal, type PortalProps } from './utils/Portal';
+
+// Componentes
+export {
+  Avatar,
+  getInitials,
+  type AvatarProps,
+  type AvatarSize,
+  type AvatarStatus,
+} from './components/Avatar/Avatar';
+export {
+  Badge,
+  type BadgeAppearance,
+  type BadgeProps,
+  type BadgeSize,
+  type BadgeTone,
+} from './components/Badge/Badge';
+export {
+  Button,
+  type ButtonProps,
+  type ButtonSize,
+  type ButtonVariant,
+} from './components/Button/Button';
+export {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  type CardHeaderProps,
+  type CardProps,
+  type CardVariant,
+} from './components/Card/Card';
+export {
+  ProgressBar,
+  type ProgressBarProps,
+  type ProgressTone,
+} from './components/ProgressBar/ProgressBar';
+export { Skeleton, type SkeletonProps, type SkeletonVariant } from './components/Skeleton/Skeleton';
+export { Spinner, type SpinnerProps, type SpinnerSize } from './components/Spinner/Spinner';
