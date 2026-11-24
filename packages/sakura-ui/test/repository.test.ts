@@ -134,6 +134,49 @@ describe('workflows do GitHub Actions', () => {
   });
 });
 
+describe('package-lock.json', () => {
+  type LockEntry = {
+    dependencies?: Record<string, string>;
+    optionalDependencies?: Record<string, string>;
+    peerDependencies?: Record<string, string>;
+    peerDependenciesMeta?: Record<string, { optional?: boolean }>;
+  };
+  const lock = json('package-lock.json') as { packages: Record<string, LockEntry> };
+
+  // Procura a dependência como o Node faria: subindo pelos node_modules.
+  function resolves(from: string, name: string) {
+    let base = from;
+    while (true) {
+      const candidate = `${base ? `${base}/` : ''}node_modules/${name}`;
+      if (lock.packages[candidate]) return true;
+      if (lock.packages[name] || lock.packages[`node_modules/${name}`]) return true;
+      const index = base.lastIndexOf('node_modules/');
+      if (index === -1) return false;
+      base = base.slice(0, index).replace(/\/$/, '');
+    }
+  }
+
+  /*
+   * O npm no Windows às vezes omite dependências opcionais de outras
+   * plataformas (como o binding WASM do Rolldown) e o `npm ci` do Linux falha
+   * com "Missing: ... from lock file". Esta é a mesma verificação, feita aqui.
+   */
+  it('toda dependência declarada no lock tem entrada no próprio lock', () => {
+    const missing: string[] = [];
+    for (const [path, entry] of Object.entries(lock.packages)) {
+      const required = { ...entry.dependencies, ...entry.optionalDependencies };
+      for (const [name, range] of Object.entries(entry.peerDependencies ?? {})) {
+        // Peers não opcionais de pacotes instalados também precisam existir.
+        if (!entry.peerDependenciesMeta?.[name]?.optional) required[name] = range;
+      }
+      for (const name of Object.keys(required)) {
+        if (!resolves(path, name)) missing.push(`${path || '(raiz)'} → ${name}`);
+      }
+    }
+    expect(missing).toEqual([]);
+  });
+});
+
 describe('sem credenciais nem dados privados', () => {
   // Arquivos versionados e novos (respeitando o .gitignore).
   const files = execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard'], {
