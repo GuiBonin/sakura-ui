@@ -140,6 +140,24 @@ describe('workflows do GitHub Actions', () => {
     },
   );
 
+  it('release pula a publicação quando a versão já está no npm', () => {
+    const release = read('.github/workflows/release.yml');
+    expect(release).toContain('npm view "@guibonin/sakura-ui@$VERSION" version');
+    expect(release).toContain('echo "published=true" >> "$GITHUB_OUTPUT"');
+    expect(release).toContain('echo "published=false" >> "$GITHUB_OUTPUT"');
+    // A condição fica no passo de publicar, e a checagem vem antes dele.
+    const check = release.indexOf('id: npm');
+    const publish = release.indexOf('- name: Publicar');
+    expect(check).toBeGreaterThan(-1);
+    expect(check).toBeLessThan(publish);
+    expect(release.slice(publish)).toMatch(
+      /^- name: Publicar\n\s+if: steps\.npm\.outputs\.published != 'true'\n\s+run: npm publish/,
+    );
+    // O release do GitHub continua rodando mesmo quando a publicação é pulada.
+    const ghRelease = release.slice(release.indexOf('- name: Criar release no GitHub'));
+    expect(ghRelease.split('\n').slice(0, 3).join('\n')).not.toContain('if:');
+  });
+
   it('release não usa cache de dependências', () => {
     expect(read('.github/workflows/release.yml')).not.toMatch(/^\s*cache:/m);
   });
