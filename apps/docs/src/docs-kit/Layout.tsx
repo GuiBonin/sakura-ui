@@ -100,24 +100,70 @@ export function Footer() {
 /** Rola para o topo e coloca o foco no conteúdo a cada troca de página. */
 function useRouteFocus() {
   const { pathname } = useLocation();
-  const first = useRef(true);
+  // Guarda a rota anterior em vez de um "primeira vez": no StrictMode o efeito
+  // roda duas vezes na montagem e o foco ia para o conteúdo ao abrir a página.
+  const previous = useRef(pathname);
   useEffect(() => {
-    if (first.current) {
-      first.current = false;
-      return;
-    }
+    if (previous.current === pathname) return;
+    previous.current = pathname;
     window.scrollTo?.(0, 0);
     document.getElementById('conteudo')?.focus({ preventScroll: true });
   }, [pathname]);
 }
 
-/** Layout da página inicial: cabeçalho e rodapé, sem menu lateral. */
+/** Menu lateral: fixo no desktop das páginas de documentação, gaveta no celular. */
+function Sidebar({ open, mobileOnly = false }: { open: boolean; mobileOnly?: boolean }) {
+  return (
+    <aside
+      id="docs-sidebar"
+      className={mobileOnly ? 'docs-sidebar docs-sidebar--mobile-only' : 'docs-sidebar'}
+      data-open={open || undefined}
+    >
+      <nav aria-label="Documentação">
+        <p className="docs-sidebar__heading">Guias</p>
+        <ul>
+          {guides.map((guide) => (
+            <li key={guide.to}>
+              <NavLink to={guide.to}>{guide.label}</NavLink>
+            </li>
+          ))}
+        </ul>
+        {categories.map((category) => (
+          <div key={category}>
+            <p className="docs-sidebar__heading">{category}</p>
+            <ul>
+              {components
+                .filter((component) => component.category === category)
+                .map((component) => (
+                  <li key={component.slug}>
+                    <NavLink to={`/componentes/${component.slug}`}>{component.name}</NavLink>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        ))}
+      </nav>
+    </aside>
+  );
+}
+
+/** Estado da gaveta do celular, fechada a cada troca de página. */
+function useMobileMenu() {
+  const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
+  useEffect(() => setOpen(false), [pathname]);
+  return { open, toggle: () => setOpen((value) => !value) };
+}
+
+/** Layout da página inicial: sem menu lateral no desktop, com gaveta no celular. */
 export function SiteLayout() {
+  const menu = useMobileMenu();
   useRouteFocus();
   return (
     <div className="docs-shell">
       <SkipLink />
-      <Header />
+      <Header onMenu={menu.toggle} menuOpen={menu.open} />
+      <Sidebar open={menu.open} mobileOnly />
       <main id="conteudo" tabIndex={-1} className="docs-main docs-main--full">
         <Outlet />
       </main>
@@ -128,44 +174,14 @@ export function SiteLayout() {
 
 /** Layout das páginas de documentação, com menu lateral. */
 export function DocsLayout() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const { pathname } = useLocation();
+  const menu = useMobileMenu();
   useRouteFocus();
-
-  // Fecha o menu móvel ao navegar.
-  useEffect(() => setMenuOpen(false), [pathname]);
-
   return (
     <div className="docs-shell">
       <SkipLink />
-      <Header onMenu={() => setMenuOpen((open) => !open)} menuOpen={menuOpen} />
+      <Header onMenu={menu.toggle} menuOpen={menu.open} />
       <div className="docs-body">
-        <aside id="docs-sidebar" className="docs-sidebar" data-open={menuOpen || undefined}>
-          <nav aria-label="Documentação">
-            <p className="docs-sidebar__heading">Guias</p>
-            <ul>
-              {guides.map((guide) => (
-                <li key={guide.to}>
-                  <NavLink to={guide.to}>{guide.label}</NavLink>
-                </li>
-              ))}
-            </ul>
-            {categories.map((category) => (
-              <div key={category}>
-                <p className="docs-sidebar__heading">{category}</p>
-                <ul>
-                  {components
-                    .filter((component) => component.category === category)
-                    .map((component) => (
-                      <li key={component.slug}>
-                        <NavLink to={`/componentes/${component.slug}`}>{component.name}</NavLink>
-                      </li>
-                    ))}
-                </ul>
-              </div>
-            ))}
-          </nav>
-        </aside>
+        <Sidebar open={menu.open} />
         <main id="conteudo" tabIndex={-1} className="docs-main">
           <Outlet />
         </main>

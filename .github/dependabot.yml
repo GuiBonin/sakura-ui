@@ -1,0 +1,15 @@
+version: 2
+updates:
+  # Mantém os SHAs fixados das actions atualizados.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      desenvolvimento:
+        dependency-type: development

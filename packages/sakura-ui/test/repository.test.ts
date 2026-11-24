@@ -127,6 +127,53 @@ describe('workflows do GitHub Actions', () => {
     expect(docs).toContain('actions/deploy-pages');
   });
 
+  it.each(['ci.yml', 'release.yml', 'docs.yml'])(
+    '%s fixa toda action por SHA completo e não guarda credenciais do checkout',
+    (file) => {
+      const content = read(`.github/workflows/${file}`);
+      const uses = [...content.matchAll(/uses: ([^\s]+)/g)].map((match) => match[1]!);
+      expect(uses.length).toBeGreaterThan(0);
+      for (const action of uses) expect(action).toMatch(/^[\w.-]+\/[\w.-]+@[0-9a-f]{40}$/);
+      const checkouts = content.split('actions/checkout@').length - 1;
+      const persisted = content.split('persist-credentials: false').length - 1;
+      expect(persisted).toBe(checkouts);
+    },
+  );
+
+  it('release não usa cache de dependências', () => {
+    expect(read('.github/workflows/release.yml')).not.toMatch(/^\s*cache:/m);
+  });
+
+  it('nenhum workflow usa gatilhos que rodam código de fork com permissões', () => {
+    for (const file of ['ci.yml', 'release.yml', 'docs.yml']) {
+      expect(read(`.github/workflows/${file}`)).not.toMatch(/pull_request_target|workflow_run/);
+    }
+  });
+
+  it('nenhum workflow interpola expressões dentro de comandos run', () => {
+    for (const file of ['ci.yml', 'release.yml', 'docs.yml']) {
+      const lines = read(`.github/workflows/${file}`).split('\n');
+      let runIndent = -1;
+      for (const line of lines) {
+        const indent = line.length - line.trimStart().length;
+        const runMatch = /^(\s*)(?:- )?run: ?(.*)$/.exec(line);
+        if (runMatch) {
+          expect(line, `${file}: ${line}`).not.toContain('${{');
+          runIndent = runMatch[2] === '|' ? indent : -1;
+          continue;
+        }
+        if (runIndent >= 0 && line.trim() !== '' && indent <= runIndent) runIndent = -1;
+        if (runIndent >= 0) expect(line, `${file}: ${line}`).not.toContain('${{');
+      }
+    }
+  });
+
+  it('dependabot acompanha actions e npm', () => {
+    const dependabot = read('.github/dependabot.yml');
+    expect(dependabot).toContain('package-ecosystem: github-actions');
+    expect(dependabot).toContain('package-ecosystem: npm');
+  });
+
   it('CI valida o pacote e roda em várias versões do Node', () => {
     const ci = read('.github/workflows/ci.yml');
     expect(ci).toContain('npm run check:package');

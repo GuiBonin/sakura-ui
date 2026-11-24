@@ -3,12 +3,14 @@ import { act, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { StrictMode } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { axeViolations } from '../../../packages/sakura-ui/test/axe';
 import { AppRoutes } from './App';
 import { categories, components, getComponent } from './content/components';
 import { examplePaths, getExample } from './content/examples';
 import { initialValues } from './docs-kit/Playground';
+import { CONTENT_SECURITY_POLICY, contentSecurityPolicy } from '../csp';
 
 function renderAt(path: string) {
   return render(
@@ -179,6 +181,31 @@ describe('navegação e layout', () => {
     expect(document.getElementById('docs-sidebar')).not.toHaveAttribute('data-open');
   });
 
+  it('a página inicial também tem o menu móvel com todas as páginas', async () => {
+    const user = userEvent.setup();
+    renderAt('/');
+    await user.click(screen.getByRole('button', { name: 'Abrir menu' }));
+    const sidebar = document.getElementById('docs-sidebar')!;
+    expect(sidebar).toHaveAttribute('data-open', 'true');
+    expect(sidebar).toHaveClass('docs-sidebar--mobile-only');
+    await user.click(within(sidebar).getByRole('link', { name: 'Começando' }));
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Começando');
+  });
+
+  it('em StrictMode, abrir uma página não rouba o foco para o conteúdo', async () => {
+    render(
+      <StrictMode>
+        <SakuraProvider defaultTheme="light">
+          <MemoryRouter initialEntries={['/temas']}>
+            <AppRoutes />
+          </MemoryRouter>
+        </SakuraProvider>
+      </StrictMode>,
+    );
+    await act(async () => {});
+    expect(screen.getByRole('main')).not.toHaveFocus();
+  });
+
   it('link de pular conteúdo leva o foco ao main sem mudar a rota', async () => {
     const user = userEvent.setup();
     renderAt('/comecando');
@@ -247,4 +274,31 @@ describe('acessibilidade do site', () => {
       expect(await axeViolations(document.body)).toEqual([]);
     },
   );
+});
+
+describe('política de segurança de conteúdo', () => {
+  it('bloqueia scripts de fora e inline, plugins e mudança de base', () => {
+    expect(CONTENT_SECURITY_POLICY).toContain("script-src 'self'");
+    expect(CONTENT_SECURITY_POLICY).not.toMatch(/script-src[^;]*unsafe/);
+    expect(CONTENT_SECURITY_POLICY).toContain("object-src 'none'");
+    expect(CONTENT_SECURITY_POLICY).toContain("base-uri 'self'");
+    expect(CONTENT_SECURITY_POLICY).toContain("default-src 'self'");
+  });
+
+  it('o plugin só roda no build e injeta CSP e referrer no head', () => {
+    const plugin = contentSecurityPolicy();
+    expect(plugin.apply).toBe('build');
+    const hook = plugin.transformIndexHtml as unknown as {
+      handler: () => Array<{ attrs: Record<string, string> }>;
+    };
+    const tags = hook.handler();
+    expect(tags[0]!.attrs).toEqual({
+      'http-equiv': 'Content-Security-Policy',
+      content: CONTENT_SECURITY_POLICY,
+    });
+    expect(tags[1]!.attrs).toEqual({
+      name: 'referrer',
+      content: 'strict-origin-when-cross-origin',
+    });
+  });
 });
