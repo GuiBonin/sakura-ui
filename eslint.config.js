@@ -27,6 +27,8 @@ export default tseslint.config(
       'react-hooks/exhaustive-deps': 'error',
       ...jsxA11y.flatConfigs.strict.rules,
       'react/prop-types': 'off',
+      // O APG recomenda tabpanel focável para quem navega por Tab.
+      'jsx-a11y/no-noninteractive-tabindex': ['error', { tags: [], roles: ['tabpanel'] }],
       // Padrões APG usam listas como listbox/menu/tablist com itens interativos.
       'jsx-a11y/no-noninteractive-element-to-interactive-role': [
         'error',

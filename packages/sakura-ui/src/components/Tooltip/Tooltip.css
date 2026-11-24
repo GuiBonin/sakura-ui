@@ -1,0 +1,31 @@
+.sk-tooltip {
+  position: fixed;
+  z-index: var(--sk-z-tooltip);
+  max-width: min(18rem, calc(100vw - 1rem));
+  padding: var(--sk-space-2) var(--sk-space-3);
+  border-radius: var(--sk-radius-sm);
+  background: var(--sk-fg);
+  color: var(--sk-bg);
+  box-shadow: var(--sk-shadow-md);
+  font-family: var(--sk-font-sans);
+  font-size: var(--sk-text-xs);
+  font-weight: var(--sk-weight-medium);
+  line-height: 1.4;
+  pointer-events: auto;
+}
+
+.sk-tooltip[data-side='top'] {
+  transform-origin: bottom center;
+}
+
+.sk-tooltip[data-side='bottom'] {
+  transform-origin: top center;
+}
+
+.sk-tooltip[data-side='left'] {
+  transform-origin: right center;
+}
+
+.sk-tooltip[data-side='right'] {
+  transform-origin: left center;
+}

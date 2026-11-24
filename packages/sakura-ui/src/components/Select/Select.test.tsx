@@ -2,6 +2,7 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event';
 import { createRef, useState } from 'react';
 import { axeViolations } from '../../../test/axe';
+import { useComponentFakeTimers } from '../../../test/timers';
 import { Select, type SelectOption } from './Select';
 
 const frutas: SelectOption[] = [
@@ -215,7 +216,7 @@ describe('Select', () => {
     });
 
     it('typeahead com várias letras e reinício após a pausa', async () => {
-      vi.useFakeTimers({ shouldAdvanceTime: true });
+      useComponentFakeTimers({ shouldAdvanceTime: true });
       const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
       render(<Select label="Fruta" options={frutas} />);
       combobox().focus();
