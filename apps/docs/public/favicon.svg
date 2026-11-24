@@ -1,0 +1,1 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g transform="translate(32 32)"><g fill="#D88CA5"><path id="p" d="M0 -4 C-9 -12 -10 -24 0 -28 C10 -24 9 -12 0 -4Z"/><use href="#p" transform="rotate(72)"/><use href="#p" transform="rotate(144)"/><use href="#p" transform="rotate(216)"/><use href="#p" transform="rotate(288)"/></g><circle r="5" fill="#9265B5"/></g></svg>
