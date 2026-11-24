@@ -72,8 +72,10 @@ export function Modal({
 
   useFocusTrap(dialogRef, open, { initialFocus });
   useScrollLock(open);
-  useEscape(() => {
-    if (closeOnEsc && isTop()) onClose();
+  useEscape((event) => {
+    if (!closeOnEsc || !isTop()) return;
+    event.preventDefault();
+    onClose();
   }, open);
 
   return (

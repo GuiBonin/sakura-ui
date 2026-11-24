@@ -19,7 +19,7 @@ export {
   useControllableState,
   type UseControllableStateOptions,
 } from './hooks/useControllableState';
-export { useEscape } from './hooks/useEscape';
+export { useEscape, type UseEscapeOptions } from './hooks/useEscape';
 export { useFocusTrap, type UseFocusTrapOptions } from './hooks/useFocusTrap';
 export { useMediaQuery, usePrefersReducedMotion } from './hooks/useMediaQuery';
 export { useScrollLock } from './hooks/useScrollLock';
@@ -106,7 +106,7 @@ export {
   type ToastTone,
 } from './components/Toast/Toast';
 export { Tooltip, type TooltipProps } from './components/Tooltip/Tooltip';
-export { useFloatingPosition } from './hooks/useFloatingPosition';
+export { useFloatingPosition, type FloatingPosition } from './hooks/useFloatingPosition';
 export {
   computePosition,
   type Align,

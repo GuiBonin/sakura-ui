@@ -4,6 +4,7 @@ import { Pencil } from 'lucide-react';
 import { createRef } from 'react';
 import { axeViolations } from '../../../test/axe';
 import { useComponentFakeTimers } from '../../../test/timers';
+import { Modal } from '../Modal/Modal';
 import { Dropdown, type DropdownItem } from './Dropdown';
 
 function setup(extra: Partial<React.ComponentProps<typeof Dropdown>> = {}) {
@@ -245,6 +246,25 @@ describe('Dropdown', () => {
       <Dropdown trigger={'x' as unknown as React.ReactElement} items={[]} />,
     );
     expect(container).toBeEmptyDOMElement();
+  });
+
+  it('dentro de um Modal, Esc fecha só o menu e o segundo Esc fecha o modal', async () => {
+    const user = userEvent.setup();
+    const onClose = vi.fn();
+    render(
+      <Modal open onClose={onClose} title="Arquivo">
+        <Dropdown trigger={<button>Ações</button>} items={[{ label: 'Renomear' }]} />
+      </Modal>,
+    );
+    await screen.findByRole('dialog');
+    await user.click(trigger());
+    expect(screen.getByRole('menu')).toBeInTheDocument();
+    await user.keyboard('{Escape}');
+    await waitFor(() => expect(screen.queryByRole('menu')).not.toBeInTheDocument());
+    expect(onClose).not.toHaveBeenCalled();
+    expect(trigger()).toHaveFocus();
+    await user.keyboard('{Escape}');
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('não tem violações de acessibilidade aberto', async () => {

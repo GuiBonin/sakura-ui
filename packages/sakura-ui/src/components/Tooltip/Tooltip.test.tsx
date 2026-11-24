@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { createRef } from 'react';
 import { axeViolations } from '../../../test/axe';
 import { useComponentFakeTimers } from '../../../test/timers';
+import { Modal } from '../Modal/Modal';
 import { Tooltip } from './Tooltip';
 
 // O AnimatePresence remove o nó alguns frames depois do exit. O vi.waitFor avança
@@ -105,6 +106,27 @@ describe('Tooltip', () => {
     await user.keyboard('{Escape}');
     await waitFor(() => expect(screen.queryByRole('tooltip')).not.toBeInTheDocument());
     expect(screen.getByRole('button')).toHaveFocus();
+  });
+
+  it('dentro de um Modal, Esc fecha só a dica e o segundo Esc fecha o modal', async () => {
+    const user = userEvent.setup();
+    const onClose = vi.fn();
+    render(
+      <Modal open onClose={onClose} title="Compartilhar">
+        <Tooltip content="Copia o link">
+          <button>Copiar</button>
+        </Tooltip>
+      </Modal>,
+    );
+    await screen.findByRole('dialog');
+    await user.tab();
+    expect(screen.getByRole('button', { name: 'Copiar' })).toHaveFocus();
+    expect(screen.getByRole('tooltip')).toBeInTheDocument();
+    await user.keyboard('{Escape}');
+    await waitFor(() => expect(screen.queryByRole('tooltip')).not.toBeInTheDocument());
+    expect(onClose).not.toHaveBeenCalled();
+    await user.keyboard('{Escape}');
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('desabilitado não abre e fecha se estava aberto', async () => {

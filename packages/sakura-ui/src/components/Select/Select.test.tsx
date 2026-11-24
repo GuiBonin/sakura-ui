@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { createRef, useState } from 'react';
 import { axeViolations } from '../../../test/axe';
 import { useComponentFakeTimers } from '../../../test/timers';
+import { Modal } from '../Modal/Modal';
 import { Select, type SelectOption } from './Select';
 
 const frutas: SelectOption[] = [
@@ -396,6 +397,51 @@ describe('Select', () => {
     const { container } = render(<Select label="Fruta" options={frutas} hint="Uma só" />);
     expect(await axeViolations(container)).toEqual([]);
     await user.click(combobox());
-    expect(await axeViolations(container)).toEqual([]);
+    expect(await axeViolations(document.body)).toEqual([]);
+  });
+
+  it('renderiza a lista em portal no body, fora do campo', async () => {
+    const user = userEvent.setup();
+    const { container } = render(<Select label="Fruta" options={frutas} />);
+    await user.click(combobox());
+    const listbox = screen.getByRole('listbox');
+    expect(container).not.toContainElement(listbox);
+    expect(document.body).toContainElement(listbox);
+    expect(combobox()).toHaveAttribute('aria-controls', listbox.id);
+  });
+
+  it('dentro de um Modal, Esc fecha só a lista e o segundo Esc fecha o modal', async () => {
+    const user = userEvent.setup();
+    const onClose = vi.fn();
+    render(
+      <Modal open onClose={onClose} title="Pedido">
+        <Select label="Fruta" options={frutas} />
+      </Modal>,
+    );
+    await screen.findByRole('dialog');
+    combobox().focus();
+    await user.keyboard('{ArrowDown}');
+    expect(screen.getByRole('listbox')).toBeInTheDocument();
+    await user.keyboard('{Escape}');
+    expect(combobox()).toHaveAttribute('aria-expanded', 'false');
+    expect(onClose).not.toHaveBeenCalled();
+    await user.keyboard('{Escape}');
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('dentro de um Modal, escolher uma opção com o mouse não fecha o modal', async () => {
+    const user = userEvent.setup();
+    const onClose = vi.fn();
+    const onValueChange = vi.fn();
+    render(
+      <Modal open onClose={onClose} title="Pedido">
+        <Select label="Fruta" options={frutas} onValueChange={onValueChange} />
+      </Modal>,
+    );
+    await screen.findByRole('dialog');
+    await user.click(combobox());
+    await user.click(screen.getByRole('option', { name: 'Banana' }));
+    expect(onValueChange).toHaveBeenCalledWith('banana');
+    expect(onClose).not.toHaveBeenCalled();
   });
 });

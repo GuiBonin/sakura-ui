@@ -6,6 +6,11 @@ import {
   type PositionResult,
 } from '../utils/position';
 
+export interface FloatingPosition extends PositionResult {
+  /** Largura do gatilho, para listas que acompanham o campo. */
+  referenceWidth: number;
+}
+
 /**
  * Posiciona um elemento flutuante (`position: fixed`) junto ao gatilho e
  * recalcula em scroll e resize enquanto estiver aberto.
@@ -18,7 +23,13 @@ export function useFloatingPosition(
   offset = 8,
 ) {
   const [side, align] = parsePlacement(placement);
-  const [position, setPosition] = useState<PositionResult>({ top: 0, left: 0, side, align });
+  const [position, setPosition] = useState<FloatingPosition>({
+    top: 0,
+    left: 0,
+    side,
+    align,
+    referenceWidth: 0,
+  });
 
   const update = useCallback(() => {
     const trigger = triggerRef.current;
@@ -26,14 +37,15 @@ export function useFloatingPosition(
     if (!trigger || !floating) return;
     const t = trigger.getBoundingClientRect();
     const f = floating.getBoundingClientRect();
-    setPosition(
-      computePosition(
+    setPosition({
+      referenceWidth: t.width,
+      ...computePosition(
         { top: t.top, left: t.left, width: t.width, height: t.height },
         { top: 0, left: 0, width: f.width, height: f.height },
         { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight },
         { placement, offset },
       ),
-    );
+    });
   }, [triggerRef, floatingRef, placement, offset]);
 
   useLayoutEffect(() => {
