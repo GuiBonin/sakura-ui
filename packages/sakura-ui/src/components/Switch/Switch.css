@@ -1,0 +1,101 @@
+.sk-switch {
+  --sk-switch-width: 2.75rem;
+  --sk-switch-height: 1.5rem;
+  --sk-switch-gap: 0.1875rem;
+
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--sk-space-3);
+  font-family: var(--sk-font-sans);
+  color: var(--sk-fg);
+}
+
+.sk-switch[data-size='sm'] {
+  --sk-switch-width: 2.125rem;
+  --sk-switch-height: 1.125rem;
+  --sk-switch-gap: 0.125rem;
+}
+
+.sk-switch[data-disabled] {
+  opacity: 0.55;
+}
+
+.sk-switch__track {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--sk-switch-width);
+  height: var(--sk-switch-height);
+  padding: 0;
+  border: 1.5px solid var(--sk-border-strong);
+  border-radius: var(--sk-radius-full);
+  background: var(--sk-surface-3);
+  cursor: pointer;
+  transition:
+    background-color var(--sk-duration-normal) var(--sk-ease-out),
+    border-color var(--sk-duration-normal) var(--sk-ease-out);
+}
+
+.sk-switch__track:disabled {
+  cursor: not-allowed;
+}
+
+.sk-switch__track:focus-visible {
+  outline: 2px solid var(--sk-ring);
+  outline-offset: 2px;
+}
+
+.sk-switch__track[data-state='on'] {
+  border-color: var(--sk-accent);
+  background: var(--sk-accent);
+}
+
+.sk-switch__thumb {
+  position: absolute;
+  top: 50%;
+  left: var(--sk-switch-gap);
+  width: calc(var(--sk-switch-height) - var(--sk-switch-gap) * 2 - 3px);
+  height: calc(var(--sk-switch-height) - var(--sk-switch-gap) * 2 - 3px);
+  border-radius: var(--sk-radius-full);
+  background: var(--sk-fg-muted);
+  box-shadow: var(--sk-shadow-sm);
+  transform: translateY(-50%);
+  transition:
+    transform var(--sk-duration-normal) var(--sk-ease-out),
+    background-color var(--sk-duration-normal) var(--sk-ease-out);
+}
+
+.sk-switch__track[data-state='on'] .sk-switch__thumb {
+  background: var(--sk-accent-fg);
+  transform: translate(calc(var(--sk-switch-width) - var(--sk-switch-height)), -50%);
+}
+
+.sk-switch__track:active:not(:disabled) .sk-switch__thumb {
+  width: calc(var(--sk-switch-height) - var(--sk-switch-gap) * 2 + 1px);
+}
+
+.sk-switch__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.sk-switch__label {
+  font-size: var(--sk-text-sm);
+  font-weight: var(--sk-weight-medium);
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.sk-switch__description {
+  color: var(--sk-fg-muted);
+  font-size: var(--sk-text-xs);
+  line-height: 1.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* O polegar muda de lado sem deslizar. */
+  .sk-switch__thumb,
+  .sk-switch__track {
+    transition: none;
+  }
+}

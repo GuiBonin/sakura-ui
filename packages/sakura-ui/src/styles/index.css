@@ -7,3 +7,8 @@
 @import '../components/Card/Card.css';
 @import '../components/Skeleton/Skeleton.css';
 @import '../components/ProgressBar/ProgressBar.css';
+@import '../components/Field/Field.css';
+@import '../components/Input/Input.css';
+@import '../components/Checkbox/Checkbox.css';
+@import '../components/Switch/Switch.css';
+@import '../components/Select/Select.css';

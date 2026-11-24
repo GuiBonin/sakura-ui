@@ -27,6 +27,17 @@ export default tseslint.config(
       'react-hooks/exhaustive-deps': 'error',
       ...jsxA11y.flatConfigs.strict.rules,
       'react/prop-types': 'off',
+      // Padrões APG usam listas como listbox/menu/tablist com itens interativos.
+      'jsx-a11y/no-noninteractive-element-to-interactive-role': [
+        'error',
+        {
+          ul: ['listbox', 'menu', 'menubar', 'radiogroup', 'tablist', 'tree', 'treegrid'],
+          ol: ['listbox', 'menu', 'menubar', 'radiogroup', 'tablist', 'tree', 'treegrid'],
+          li: ['menuitem', 'menuitemradio', 'menuitemcheckbox', 'option', 'row', 'tab', 'treeitem'],
+          table: ['grid'],
+          td: ['gridcell'],
+        },
+      ],
       '@typescript-eslint/consistent-type-imports': 'error',
       '@typescript-eslint/no-unused-vars': [
         'error',

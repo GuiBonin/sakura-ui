@@ -1,0 +1,106 @@
+.sk-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sk-space-2);
+  min-width: 0;
+  font-family: var(--sk-font-sans);
+  color: var(--sk-fg);
+}
+
+.sk-field__label {
+  display: inline-flex;
+  gap: 0.2rem;
+  font-size: var(--sk-text-sm);
+  font-weight: var(--sk-weight-medium);
+  line-height: 1.3;
+}
+
+.sk-field__label[data-disabled] {
+  opacity: 0.6;
+}
+
+.sk-field__required {
+  color: var(--sk-danger);
+}
+
+.sk-field__hint,
+.sk-field__error {
+  margin: 0;
+  font-size: var(--sk-text-xs);
+  line-height: 1.4;
+}
+
+.sk-field__hint {
+  color: var(--sk-fg-muted);
+}
+
+.sk-field__error {
+  color: var(--sk-danger);
+  font-weight: var(--sk-weight-medium);
+}
+
+/* Caixa compartilhada por Input e Select */
+.sk-control {
+  --sk-control-height: 2.5rem;
+
+  display: flex;
+  align-items: center;
+  gap: var(--sk-space-2);
+  width: 100%;
+  min-height: var(--sk-control-height);
+  padding: 0 var(--sk-space-3);
+  border: 1px solid var(--sk-border-strong);
+  border-radius: var(--sk-radius-md);
+  background: var(--sk-surface);
+  color: var(--sk-fg);
+  font-family: var(--sk-font-sans);
+  font-size: var(--sk-text-sm);
+  transition:
+    border-color var(--sk-duration-fast) var(--sk-ease-out),
+    box-shadow var(--sk-duration-fast) var(--sk-ease-out);
+}
+
+.sk-control[data-size='sm'] {
+  --sk-control-height: 2rem;
+  font-size: var(--sk-text-xs);
+}
+
+.sk-control[data-size='lg'] {
+  --sk-control-height: 3rem;
+  font-size: var(--sk-text-md);
+}
+
+.sk-control:hover:not([data-disabled]) {
+  border-color: var(--sk-fg-muted);
+}
+
+.sk-control:focus-within,
+.sk-control[data-focused] {
+  border-color: var(--sk-ring);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--sk-ring) 30%, transparent);
+}
+
+.sk-control[data-invalid] {
+  border-color: var(--sk-danger);
+}
+
+.sk-control[data-invalid]:focus-within {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--sk-danger) 25%, transparent);
+}
+
+.sk-control[data-disabled] {
+  background: var(--sk-surface-2);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.sk-control__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--sk-fg-muted);
+}
+
+.sk-control__icon > svg {
+  width: 1rem;
+  height: 1rem;
+}
