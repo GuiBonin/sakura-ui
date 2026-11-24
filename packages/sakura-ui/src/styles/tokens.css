@@ -1,0 +1,143 @@
+/*
+ * Sakura UI: tokens de design.
+ * Primitivos com a paleta da marca e tokens semânticos por tema.
+ * Componentes usam somente os tokens semânticos.
+ */
+:root {
+  /* Paleta da marca */
+  --sk-charcoal: #151218;
+  --sk-sakura: #d88ca5;
+  --sk-sakura-soft: #e8b4c8;
+  --sk-violet: #9265b5;
+  --sk-plum: #51345f;
+
+  /* Tipografia */
+  --sk-font-sans:
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --sk-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sk-text-xs: 0.75rem;
+  --sk-text-sm: 0.875rem;
+  --sk-text-md: 1rem;
+  --sk-text-lg: 1.125rem;
+  --sk-text-xl: 1.25rem;
+  --sk-text-2xl: 1.5rem;
+  --sk-weight-regular: 400;
+  --sk-weight-medium: 500;
+  --sk-weight-semibold: 600;
+  --sk-weight-bold: 700;
+  --sk-leading: 1.5;
+
+  /* Espaçamento (base 4px) */
+  --sk-space-1: 0.25rem;
+  --sk-space-2: 0.5rem;
+  --sk-space-3: 0.75rem;
+  --sk-space-4: 1rem;
+  --sk-space-5: 1.25rem;
+  --sk-space-6: 1.5rem;
+  --sk-space-8: 2rem;
+
+  /* Raios */
+  --sk-radius-sm: 0.375rem;
+  --sk-radius-md: 0.625rem;
+  --sk-radius-lg: 0.875rem;
+  --sk-radius-xl: 1.25rem;
+  --sk-radius-full: 9999px;
+
+  /* Movimento */
+  --sk-duration-fast: 120ms;
+  --sk-duration-normal: 200ms;
+  --sk-duration-slow: 320ms;
+  --sk-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --sk-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Camadas */
+  --sk-z-dropdown: 1000;
+  --sk-z-overlay: 1100;
+  --sk-z-modal: 1200;
+  --sk-z-toast: 1300;
+  --sk-z-tooltip: 1400;
+
+  /* Tema claro (padrão) */
+  color-scheme: light;
+  --sk-bg: #fbf8fa;
+  --sk-surface: #ffffff;
+  --sk-surface-2: #f6eef2;
+  --sk-surface-3: #eee2e9;
+  --sk-fg: #151218;
+  --sk-fg-muted: #5e5466;
+  --sk-fg-subtle: #6f6577;
+  --sk-border: #e6dce3;
+  --sk-border-strong: #8f8199;
+  --sk-primary: #d88ca5;
+  --sk-primary-hover: #cd7896;
+  --sk-primary-active: #c06686;
+  --sk-primary-fg: #151218;
+  --sk-primary-soft: #f8e5ed;
+  --sk-primary-soft-fg: #51345f;
+  --sk-accent: #8a5aae;
+  --sk-accent-fg: #ffffff;
+  --sk-accent-soft: #efe6f6;
+  --sk-accent-soft-fg: #51345f;
+  --sk-emphasis: #51345f;
+  --sk-ring: #9265b5;
+  --sk-danger: #b42346;
+  --sk-danger-hover: #9c1d3c;
+  --sk-danger-fg: #ffffff;
+  --sk-danger-soft: #fce8ec;
+  --sk-danger-soft-fg: #8c1a36;
+  --sk-success: #1f7a4d;
+  --sk-success-fg: #ffffff;
+  --sk-success-soft: #e3f4ea;
+  --sk-success-soft-fg: #17603c;
+  --sk-warning: #f2c14e;
+  --sk-warning-fg: #151218;
+  --sk-warning-soft: #fff4d9;
+  --sk-warning-soft-fg: #7a4f00;
+  --sk-overlay: rgb(21 18 24 / 0.55);
+  --sk-shadow-sm: 0 1px 2px rgb(81 52 95 / 0.08);
+  --sk-shadow-md: 0 4px 12px rgb(81 52 95 / 0.1), 0 1px 3px rgb(81 52 95 / 0.08);
+  --sk-shadow-lg: 0 18px 40px rgb(81 52 95 / 0.16), 0 4px 12px rgb(81 52 95 / 0.08);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --sk-bg: #151218;
+  --sk-surface: #1d1922;
+  --sk-surface-2: #26212c;
+  --sk-surface-3: #312a38;
+  --sk-fg: #f5eef3;
+  --sk-fg-muted: #bcb0c1;
+  --sk-fg-subtle: #a598aa;
+  --sk-border: #362e3d;
+  --sk-border-strong: #7a6c84;
+  --sk-primary: #d88ca5;
+  --sk-primary-hover: #e3a2b8;
+  --sk-primary-active: #e8b4c8;
+  --sk-primary-fg: #151218;
+  --sk-primary-soft: #3a2532;
+  --sk-primary-soft-fg: #e8b4c8;
+  --sk-accent: #a57cc6;
+  --sk-accent-fg: #151218;
+  --sk-accent-soft: #2f2440;
+  --sk-accent-soft-fg: #d6c1e8;
+  --sk-emphasis: #e8b4c8;
+  --sk-ring: #e8b4c8;
+  --sk-danger: #f2849b;
+  --sk-danger-hover: #f59cb0;
+  --sk-danger-fg: #151218;
+  --sk-danger-soft: #3d1c26;
+  --sk-danger-soft-fg: #f7b3c2;
+  --sk-success: #5fcb93;
+  --sk-success-fg: #151218;
+  --sk-success-soft: #173326;
+  --sk-success-soft-fg: #9ee2bd;
+  --sk-warning: #f2c14e;
+  --sk-warning-fg: #151218;
+  --sk-warning-soft: #3a2f14;
+  --sk-warning-soft-fg: #f5d68a;
+  --sk-overlay: rgb(0 0 0 / 0.65);
+  --sk-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --sk-shadow-md: 0 4px 12px rgb(0 0 0 / 0.45), 0 1px 3px rgb(0 0 0 / 0.35);
+  --sk-shadow-lg: 0 18px 40px rgb(0 0 0 / 0.55), 0 4px 12px rgb(0 0 0 / 0.35);
+}
