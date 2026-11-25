@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
-    "@guibonin/sakura-ui": "^0.1.0",
+    "@guibonin/sakura-ui": "*",
     "framer-motion": "^14.14.0",
     "lucide-react": "^1.79.0",
     "prism-react-renderer": "^2.4.1",

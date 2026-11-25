@@ -64,6 +64,26 @@ describe('package.json da biblioteca', () => {
   });
 });
 
+describe('workspace do site', () => {
+  /*
+   * Com "^0.1.0", subir a lib para 0.2.0 fazia o npm baixar a 0.1.0 do
+   * registro para o site em vez de usar o código local. "*" sempre resolve
+   * para o workspace, qualquer que seja a versão.
+   */
+  it('o site depende da biblioteca local com "*"', () => {
+    expect(json('apps/docs/package.json').dependencies['@guibonin/sakura-ui']).toBe('*');
+  });
+
+  it('o lockfile liga o site ao workspace, sem cópia do registro', () => {
+    const lock = json('package-lock.json') as {
+      packages: Record<string, { version?: string; link?: boolean }>;
+    };
+    expect(lock.packages['node_modules/@guibonin/sakura-ui']).toMatchObject({ link: true });
+    expect(lock.packages['apps/docs/node_modules/@guibonin/sakura-ui']).toBeUndefined();
+    expect(lock.packages['packages/sakura-ui']!.version).toBe(pkg.version);
+  });
+});
+
 describe('documentos do projeto', () => {
   it('licença MIT com o autor', () => {
     const license = read('LICENSE');

@@ -4,6 +4,8 @@ Mudanças relevantes de cada versão. O formato segue o [Keep a Changelog](https
 
 ## [Não publicado]
 
+## [0.2.0] - 2026-11-25
+
 ### Adicionado
 
 - Tons `info` e `neutral`, com tokens `--sk-info*` e `--sk-neutral*` nos dois temas.
@@ -35,5 +37,6 @@ Primeira versão.
 - Saída ESM e CommonJS com tipos para os dois formatos e diretiva `"use client"`.
 - Site de documentação com playground, exemplos copiáveis e guias.
 
-[Não publicado]: https://github.com/GuiBonin/sakura-ui/compare/v0.1.0...HEAD
+[Não publicado]: https://github.com/GuiBonin/sakura-ui/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/GuiBonin/sakura-ui/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/GuiBonin/sakura-ui/releases/tag/v0.1.0
