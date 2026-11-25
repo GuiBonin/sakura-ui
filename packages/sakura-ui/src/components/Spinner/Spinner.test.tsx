@@ -19,6 +19,25 @@ describe('Spinner', () => {
     expect(screen.getByRole('status')).toHaveAttribute('data-size', size);
   });
 
+  it('usa o tom primary por padrão', () => {
+    render(<Spinner />);
+    expect(screen.getByRole('status')).toHaveAttribute('data-tone', 'primary');
+  });
+
+  it.each([
+    'primary',
+    'accent',
+    'info',
+    'success',
+    'warning',
+    'danger',
+    'neutral',
+    'current',
+  ] as const)('aplica o tom %s', (tone) => {
+    render(<Spinner tone={tone} />);
+    expect(screen.getByRole('status')).toHaveAttribute('data-tone', tone);
+  });
+
   it('decorativo fica oculto para leitores de tela', () => {
     const { container } = render(<Spinner decorative />);
     expect(screen.queryByRole('status')).not.toBeInTheDocument();

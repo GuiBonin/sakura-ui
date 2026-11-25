@@ -55,6 +55,19 @@ describe('ProgressBar', () => {
     expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuetext', '3 de 10 arquivos');
   });
 
+  it.each(['primary', 'accent', 'info', 'success', 'warning', 'danger', 'neutral'] as const)(
+    'aceita o tom %s',
+    (tone) => {
+      const { container } = render(<ProgressBar value={1} tone={tone} aria-label="p" />);
+      expect(container.firstElementChild).toHaveAttribute('data-tone', tone);
+    },
+  );
+
+  it('usa o tom primary por padrão', () => {
+    const { container } = render(<ProgressBar value={1} aria-label="p" />);
+    expect(container.firstElementChild).toHaveAttribute('data-tone', 'primary');
+  });
+
   it('aplica tom e tamanho', () => {
     const { container } = render(<ProgressBar value={1} tone="success" size="lg" aria-label="p" />);
     expect(container.firstElementChild).toHaveAttribute('data-tone', 'success');

@@ -83,6 +83,7 @@
   --sk-ring: #9265b5;
   --sk-danger: #b42346;
   --sk-danger-hover: #9c1d3c;
+  --sk-danger-active: #8c1a36;
   --sk-danger-fg: #ffffff;
   --sk-danger-soft: #fce8ec;
   --sk-danger-soft-fg: #8c1a36;
@@ -94,6 +95,21 @@
   --sk-warning-fg: #151218;
   --sk-warning-soft: #fff4d9;
   --sk-warning-soft-fg: #7a4f00;
+  /* Versão escura do amarelo para barras e ícones sobre fundo claro (3:1). */
+  --sk-warning-strong: #8f5b00;
+  --sk-info: #4f5d9b;
+  --sk-info-fg: #ffffff;
+  --sk-info-soft: #e9edfb;
+  --sk-info-soft-fg: #34477f;
+  --sk-neutral: #5e5466;
+  --sk-neutral-fg: #ffffff;
+  --sk-neutral-soft: #f0ebef;
+  --sk-neutral-soft-fg: #4b4053;
+  /* Indicadores gráficos (Spinner, ProgressBar). O rosa sakura sobre branco
+     fica abaixo de 3:1, então no claro eles usam tons mais escuros da paleta. */
+  --sk-indicator: #8a5aae;
+  --sk-indicator-start: #ac526f;
+  --sk-indicator-end: #8a5aae;
   --sk-overlay: rgb(21 18 24 / 0.55);
   --sk-shadow-sm: 0 1px 2px rgb(81 52 95 / 0.08);
   --sk-shadow-md: 0 4px 12px rgb(81 52 95 / 0.1), 0 1px 3px rgb(81 52 95 / 0.08);
@@ -125,6 +141,7 @@
   --sk-ring: #e8b4c8;
   --sk-danger: #ff6b83;
   --sk-danger-hover: #ff8799;
+  --sk-danger-active: #e94a68;
   --sk-danger-fg: #151218;
   --sk-danger-soft: #3d1c26;
   --sk-danger-soft-fg: #f7b3c2;
@@ -136,6 +153,18 @@
   --sk-warning-fg: #151218;
   --sk-warning-soft: #3a2f14;
   --sk-warning-soft-fg: #f5d68a;
+  --sk-warning-strong: #f2c14e;
+  --sk-info: #a7b8f5;
+  --sk-info-fg: #151218;
+  --sk-info-soft: #242b45;
+  --sk-info-soft-fg: #c4cffb;
+  --sk-neutral: #bcb0c1;
+  --sk-neutral-fg: #151218;
+  --sk-neutral-soft: #312a38;
+  --sk-neutral-soft-fg: #ddd2df;
+  --sk-indicator: #d88ca5;
+  --sk-indicator-start: #d88ca5;
+  --sk-indicator-end: #9265b5;
   --sk-overlay: rgb(0 0 0 / 0.65);
   --sk-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
   --sk-shadow-md: 0 4px 12px rgb(0 0 0 / 0.45), 0 1px 3px rgb(0 0 0 / 0.35);

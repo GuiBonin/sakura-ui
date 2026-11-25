@@ -16,8 +16,14 @@
   --sk-switch-gap: 0.125rem;
 }
 
-.sk-switch[data-disabled] {
-  opacity: 0.55;
+/* Desabilitado: só a trilha perde ênfase; o rótulo continua legível. */
+.sk-switch[data-disabled] .sk-switch__track {
+  opacity: 0.5;
+}
+
+.sk-switch[data-disabled] .sk-switch__label {
+  color: var(--sk-fg-muted);
+  cursor: not-allowed;
 }
 
 .sk-switch__track {
@@ -37,6 +43,10 @@
 
 .sk-switch__track:disabled {
   cursor: not-allowed;
+}
+
+.sk-switch__track[data-state='off']:hover:not(:disabled) {
+  border-color: var(--sk-accent);
 }
 
 .sk-switch__track:focus-visible {

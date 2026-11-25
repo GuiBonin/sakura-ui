@@ -51,11 +51,16 @@ const textPairs: Array<[string, string]> = [
   ['danger', 'surface'],
   ['danger-fg', 'danger'],
   ['danger-fg', 'danger-hover'],
+  ['danger-fg', 'danger-active'],
   ['danger-soft-fg', 'danger-soft'],
   ['success-fg', 'success'],
   ['success-soft-fg', 'success-soft'],
   ['warning-fg', 'warning'],
   ['warning-soft-fg', 'warning-soft'],
+  ['info-fg', 'info'],
+  ['info-soft-fg', 'info-soft'],
+  ['neutral-fg', 'neutral'],
+  ['neutral-soft-fg', 'neutral-soft'],
 ];
 
 /** Pares de elementos de interface (bordas de campo, anel de foco): 3:1. */
@@ -65,6 +70,26 @@ const uiPairs: Array<[string, string]> = [
   ['border-strong', 'surface'],
   ['border-strong', 'bg'],
 ];
+
+/*
+ * Indicadores gráficos (Spinner e preenchimento da ProgressBar) também são
+ * elementos de interface: 3:1 contra o fundo da página, a superfície e a
+ * trilha da barra (surface-3). Cada cor aqui é a que algum tom usa.
+ */
+const indicatorColors = [
+  'indicator',
+  'indicator-start',
+  'indicator-end',
+  'accent',
+  'info',
+  'success',
+  'warning-strong',
+  'danger',
+  'neutral',
+];
+const indicatorPairs: Array<[string, string]> = indicatorColors.flatMap((name) =>
+  ['bg', 'surface', 'surface-3'].map((bg): [string, string] => [name, bg]),
+);
 
 describe.each([
   ['claro', light],
@@ -83,6 +108,10 @@ describe.each([
   it.each(uiPairs)('elemento %s sobre %s tem contraste de 3:1', (fg, bg) => {
     expect(contrast(color(fg), color(bg))).toBeGreaterThanOrEqual(3);
   });
+
+  it.each(indicatorPairs)('indicador %s sobre %s tem contraste de 3:1', (fg, bg) => {
+    expect(contrast(color(fg), color(bg))).toBeGreaterThanOrEqual(3);
+  });
 });
 
 describe('paleta da marca', () => {
@@ -98,10 +127,19 @@ describe('paleta da marca', () => {
     expect(contrast('#d88ca5', '#ffffff')).toBeLessThan(4.5);
   });
 
+  it('confirma que o rosa sakura não serve como indicador no tema claro', () => {
+    expect(contrast('#d88ca5', light['--sk-surface']!)).toBeLessThan(3);
+    expect(light['--sk-indicator']).not.toBe('#d88ca5');
+  });
+
+  it('o tema escuro mantém o rosa sakura nos indicadores', () => {
+    expect(dark['--sk-indicator']).toBe('#d88ca5');
+  });
+
   it('define no tema escuro os mesmos tokens semânticos do claro', () => {
     const darkOnly = block("[data-theme='dark']");
     const semantic = Object.keys(light).filter((key) =>
-      /^--sk-(bg|surface|fg|primary|accent|danger|success|warning|border|ring|emphasis|overlay|shadow)/.test(
+      /^--sk-(bg|surface|fg|primary|accent|danger|success|warning|info|neutral|indicator|border|ring|emphasis|overlay|shadow)/.test(
         key,
       ),
     );

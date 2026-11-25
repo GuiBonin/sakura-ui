@@ -77,6 +77,8 @@ describe('Button', () => {
     expect(button).toHaveAttribute('aria-disabled', 'true');
     expect(button).not.toBeDisabled();
     expect(button.querySelector('.sk-spinner')).toBeInTheDocument();
+    // O spinner herda a cor do texto do botão em vez do tom padrão.
+    expect(button.querySelector('.sk-spinner')).toHaveAttribute('data-tone', 'current');
     expect(screen.queryByTestId('icone')).not.toBeInTheDocument();
 
     await user.click(button);

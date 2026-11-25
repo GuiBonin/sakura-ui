@@ -8,6 +8,7 @@ export default function Tones() {
         <Badge>Rascunho</Badge>
         <Badge tone="primary">Novo</Badge>
         <Badge tone="accent">Beta</Badge>
+        <Badge tone="info">Atualização</Badge>
         <Badge tone="success" dot>
           Ativo
         </Badge>

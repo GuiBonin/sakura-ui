@@ -1,8 +1,8 @@
 .sk-badge {
-  --sk-badge-solid: var(--sk-fg-muted);
-  --sk-badge-solid-fg: var(--sk-surface);
-  --sk-badge-soft: var(--sk-surface-2);
-  --sk-badge-soft-fg: var(--sk-fg);
+  --sk-badge-solid: var(--sk-neutral);
+  --sk-badge-solid-fg: var(--sk-neutral-fg);
+  --sk-badge-soft: var(--sk-neutral-soft);
+  --sk-badge-soft-fg: var(--sk-neutral-soft-fg);
 
   display: inline-flex;
   align-items: center;
@@ -49,6 +49,13 @@
   --sk-badge-solid-fg: var(--sk-accent-fg);
   --sk-badge-soft: var(--sk-accent-soft);
   --sk-badge-soft-fg: var(--sk-accent-soft-fg);
+}
+
+.sk-badge[data-tone='info'] {
+  --sk-badge-solid: var(--sk-info);
+  --sk-badge-solid-fg: var(--sk-info-fg);
+  --sk-badge-soft: var(--sk-info-soft);
+  --sk-badge-soft-fg: var(--sk-info-soft-fg);
 }
 
 .sk-badge[data-tone='success'] {

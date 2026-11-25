@@ -1,5 +1,5 @@
 .sk-progress {
-  --sk-progress-color: linear-gradient(90deg, var(--sk-sakura), var(--sk-violet));
+  --sk-progress-color: linear-gradient(90deg, var(--sk-indicator-start), var(--sk-indicator-end));
   --sk-progress-height: 0.5rem;
 
   display: flex;
@@ -21,16 +21,24 @@
   --sk-progress-color: var(--sk-accent);
 }
 
+.sk-progress[data-tone='info'] {
+  --sk-progress-color: var(--sk-info);
+}
+
 .sk-progress[data-tone='success'] {
   --sk-progress-color: var(--sk-success);
 }
 
 .sk-progress[data-tone='warning'] {
-  --sk-progress-color: var(--sk-warning);
+  --sk-progress-color: var(--sk-warning-strong);
 }
 
 .sk-progress[data-tone='danger'] {
   --sk-progress-color: var(--sk-danger);
+}
+
+.sk-progress[data-tone='neutral'] {
+  --sk-progress-color: var(--sk-neutral);
 }
 
 .sk-progress__header {

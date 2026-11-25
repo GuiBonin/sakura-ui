@@ -52,6 +52,12 @@
   border-color: var(--sk-ring);
 }
 
+/* Cartão que recebe foco direto (por exemplo, com tabIndex ou como link). */
+.sk-card[data-interactive]:focus-visible {
+  outline: 2px solid var(--sk-ring);
+  outline-offset: 2px;
+}
+
 .sk-card__header {
   display: flex;
   align-items: flex-start;

@@ -40,7 +40,7 @@
 }
 
 .sk-toast {
-  --sk-toast-accent: var(--sk-accent);
+  --sk-toast-accent: var(--sk-info);
 
   display: flex;
   align-items: flex-start;
@@ -60,7 +60,7 @@
 }
 
 .sk-toast[data-tone='warning'] {
-  --sk-toast-accent: var(--sk-warning);
+  --sk-toast-accent: var(--sk-warning-strong);
 }
 
 .sk-toast[data-tone='danger'] {
@@ -118,9 +118,11 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 1.75rem;
-  height: 1.75rem;
-  margin: -0.25rem -0.25rem 0 0;
+  /* Área de clique de 40px; as margens negativas mantêm o ícone alinhado ao
+     título e não aumentam a altura do toast. */
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: -0.625rem -0.625rem -0.625rem 0;
   padding: 0;
   border: 0;
   border-radius: var(--sk-radius-sm);

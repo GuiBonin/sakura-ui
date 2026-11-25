@@ -24,6 +24,7 @@ import {
   type Side,
   type SkeletonVariant,
   type SpinnerSize,
+  type SpinnerTone,
   type ToastTone,
 } from '@guibonin/sakura-ui';
 import { Mail } from 'lucide-react';
@@ -708,7 +709,7 @@ export const components: ComponentDoc[] = [
           type: 'select',
           prop: 'tone',
           label: 'tone',
-          options: ['neutral', 'primary', 'accent', 'success', 'warning', 'danger'],
+          options: ['neutral', 'primary', 'accent', 'info', 'success', 'warning', 'danger'],
           default: 'primary',
         },
         {
@@ -744,7 +745,7 @@ export const components: ComponentDoc[] = [
     props: [
       {
         name: 'tone',
-        type: "'neutral' | 'primary' | 'accent' | 'success' | 'warning' | 'danger'",
+        type: "'neutral' | 'primary' | 'accent' | 'info' | 'success' | 'warning' | 'danger'",
         default: "'neutral'",
         description: 'Cor.',
       },
@@ -919,7 +920,7 @@ export const components: ComponentDoc[] = [
           type: 'select',
           prop: 'tone',
           label: 'tone',
-          options: ['primary', 'accent', 'success', 'warning', 'danger'],
+          options: ['primary', 'accent', 'info', 'success', 'warning', 'danger', 'neutral'],
           default: 'primary',
         },
         { type: 'select', prop: 'size', label: 'size', options: sizes, default: 'md' },
@@ -962,7 +963,13 @@ export const components: ComponentDoc[] = [
         type: 'string',
         description: 'Texto lido no lugar do número, como "3 de 10 arquivos".',
       },
-      { name: 'tone / size', type: 'ProgressTone / sm | md | lg', description: 'Cor e espessura.' },
+      {
+        name: 'tone',
+        type: "'primary' | 'accent' | 'info' | 'success' | 'warning' | 'danger' | 'neutral'",
+        default: "'primary'",
+        description: 'Cor do preenchimento. primary usa o gradiente da marca.',
+      },
+      { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Espessura.' },
     ],
     a11y: [
       'role="progressbar" com aria-valuenow, aria-valuemin e aria-valuemax.',
@@ -1034,14 +1041,33 @@ export const components: ComponentDoc[] = [
     playground: {
       controls: [
         { type: 'select', prop: 'size', label: 'size', options: sizes, default: 'lg' },
+        {
+          type: 'select',
+          prop: 'tone',
+          label: 'tone',
+          options: ['primary', 'accent', 'info', 'success', 'warning', 'danger', 'neutral'],
+          default: 'primary',
+        },
         { type: 'text', prop: 'label', label: 'label', default: 'Carregando' },
       ],
-      render: (v) => <Spinner size={v.size as SpinnerSize} label={str(v.label)} />,
-      code: (v) => toJsx('Spinner', v, undefined, { size: 'md', label: 'Carregando' }),
+      render: (v) => (
+        <Spinner size={v.size as SpinnerSize} tone={v.tone as SpinnerTone} label={str(v.label)} />
+      ),
+      code: (v) =>
+        toJsx('Spinner', v, undefined, { size: 'md', tone: 'primary', label: 'Carregando' }),
     },
-    examples: [{ title: 'Tamanhos', path: 'spinner/Sizes' }],
+    examples: [
+      { title: 'Tamanhos', path: 'spinner/Sizes' },
+      { title: 'Tons', path: 'spinner/Tones' },
+    ],
     props: [
       { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Tamanho.' },
+      {
+        name: 'tone',
+        type: "'primary' | 'accent' | 'info' | 'success' | 'warning' | 'danger' | 'neutral' | 'current'",
+        default: "'primary'",
+        description: 'Cor. current herda a cor do texto ao redor, como dentro de um botão.',
+      },
       {
         name: 'label',
         type: 'string',

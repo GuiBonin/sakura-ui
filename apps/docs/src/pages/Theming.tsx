@@ -1,4 +1,12 @@
-import { Badge, Button, useTheme, type ThemeMode } from '@guibonin/sakura-ui';
+import {
+  Badge,
+  Button,
+  ProgressBar,
+  Spinner,
+  useTheme,
+  type BadgeTone,
+  type ThemeMode,
+} from '@guibonin/sakura-ui';
 import { CodeBlock } from '../docs-kit/CodeBlock';
 import { useDocumentTitle } from '../docs-kit/useDocumentTitle';
 
@@ -8,6 +16,17 @@ const palette = [
   { name: 'Rosa suave', token: '--sk-sakura-soft', hex: '#E8B4C8' },
   { name: 'Violeta', token: '--sk-violet', hex: '#9265B5' },
   { name: 'Roxo escuro', token: '--sk-plum', hex: '#51345F' },
+];
+
+/** Cores por função. Os swatches leem os tokens, então mudam junto com o tema. */
+const tones: { tone: BadgeTone; label: string; use: string }[] = [
+  { tone: 'primary', label: 'primary', use: 'Ação principal e marca.' },
+  { tone: 'accent', label: 'accent', use: 'Destaque secundário, seleção, switch ligado.' },
+  { tone: 'info', label: 'info', use: 'Avisos neutros: novidade, dica, atualização.' },
+  { tone: 'success', label: 'success', use: 'Concluído, pago, ativo.' },
+  { tone: 'warning', label: 'warning', use: 'Atenção sem bloquear: pendente, vencendo.' },
+  { tone: 'danger', label: 'danger', use: 'Erro e ação destrutiva.' },
+  { tone: 'neutral', label: 'neutral', use: 'Status discreto: rascunho, arquivado.' },
 ];
 
 const modes: { value: ThemeMode; label: string }[] = [
@@ -97,6 +116,73 @@ function BotaoTema() {
         </p>
       </section>
 
+      <section aria-labelledby="funcoes">
+        <h2 id="funcoes">Cores por função</h2>
+        <p>
+          Além da paleta da marca, cada situação tem um tom próprio. Badge, ProgressBar e Spinner
+          aceitam a prop <code>tone</code> com esses nomes, e o Toast usa info, success, warning e
+          danger.
+        </p>
+        <div className="docs-table-wrap">
+          <table className="docs-table">
+            <thead>
+              <tr>
+                <th scope="col">Tom</th>
+                <th scope="col">Exemplo</th>
+                <th scope="col">Quando usar</th>
+                <th scope="col">Tokens</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tones.map(({ tone, label, use }) => (
+                <tr key={tone}>
+                  <th scope="row">
+                    <code>{label}</code>
+                  </th>
+                  <td>
+                    <span style={{ display: 'inline-flex', gap: 6, flexWrap: 'wrap' }}>
+                      <Badge tone={tone}>soft</Badge>
+                      <Badge tone={tone} appearance="solid">
+                        solid
+                      </Badge>
+                    </span>
+                  </td>
+                  <td>{use}</td>
+                  <td>
+                    {/* Um token por linha: o nome não quebra no meio. */}
+                    <span style={{ display: 'grid', gap: 4, justifyItems: 'start' }}>
+                      {['', '-fg', '-soft', '-soft-fg'].map((suffix) => (
+                        <code key={suffix} style={{ whiteSpace: 'nowrap' }}>
+                          {`--sk-${tone}${suffix}`}
+                        </code>
+                      ))}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Spinner e barra de progresso são elementos gráficos e precisam de contraste de 3:1 com o
+          fundo. O rosa Sakura sobre branco fica em 2,6:1, então no tema claro eles usam os tokens{' '}
+          <code>--sk-indicator</code> (violeta) e <code>--sk-indicator-start</code> /{' '}
+          <code>--sk-indicator-end</code> (gradiente vinho para violeta). No escuro, voltam ao rosa.
+          Pelo mesmo motivo, o amarelo de warning em barras e ícones usa{' '}
+          <code>--sk-warning-strong</code>.
+        </p>
+        <div className="docs-preview">
+          <div style={{ display: 'grid', gap: 16, width: '100%', maxWidth: 360 }}>
+            <ProgressBar aria-label="Exemplo com o gradiente padrão" value={64} />
+            <ProgressBar aria-label="Exemplo com o tom warning" value={40} tone="warning" />
+            <span style={{ display: 'flex', gap: 16 }}>
+              <Spinner label="Exemplo do spinner padrão" />
+              <Spinner tone="info" label="Exemplo do spinner info" />
+            </span>
+          </div>
+        </div>
+      </section>
+
       <section aria-labelledby="personalizar">
         <h2 id="personalizar">Personalizando</h2>
         <p>
@@ -119,8 +205,31 @@ function BotaoTema() {
 }`}
         />
         <p>
-          Ao trocar cores, confira o contraste entre texto e fundo. A própria biblioteca tem um
-          teste que valida todos os pares dos dois temas.
+          Para trocar um tom inteiro, sobrescreva o grupo todo: a cor, o texto sobre ela e as
+          versões soft. Por exemplo, um <code>info</code> verde-água:
+        </p>
+        <CodeBlock
+          language="css"
+          title="tema.css"
+          code={`:root {
+  --sk-info: #1d6f72;
+  --sk-info-fg: #ffffff;
+  --sk-info-soft: #e0f2f2;
+  --sk-info-soft-fg: #134d4f;
+}
+
+[data-theme='dark'] {
+  --sk-info: #7fd3d0;
+  --sk-info-fg: #151218;
+  --sk-info-soft: #16302f;
+  --sk-info-soft-fg: #b5ebe8;
+}`}
+        />
+        <p>
+          Ao trocar cores, confira o contraste: 4,5:1 para texto (<code>--sk-info-fg</code> sobre{' '}
+          <code>--sk-info</code>, <code>--sk-info-soft-fg</code> sobre <code>--sk-info-soft</code>)
+          e 3:1 para indicadores sobre o fundo. A própria biblioteca tem um teste que valida esses
+          pares nos dois temas.
         </p>
       </section>
     </article>

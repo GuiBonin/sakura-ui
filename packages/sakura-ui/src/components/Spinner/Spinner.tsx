@@ -2,9 +2,13 @@ import { forwardRef, type HTMLAttributes } from 'react';
 import { cx } from '../../utils/cx';
 
 export type SpinnerSize = 'sm' | 'md' | 'lg';
+/** `current` herda a cor do texto ao redor (útil dentro de botões). */
+export type SpinnerTone =
+  'primary' | 'accent' | 'info' | 'success' | 'warning' | 'danger' | 'neutral' | 'current';
 
 export interface SpinnerProps extends HTMLAttributes<HTMLSpanElement> {
   size?: SpinnerSize;
+  tone?: SpinnerTone;
   /** Texto lido por leitores de tela. Padrão: "Carregando". */
   label?: string;
   /**
@@ -16,7 +20,7 @@ export interface SpinnerProps extends HTMLAttributes<HTMLSpanElement> {
 
 /** Indicador de carregamento circular. Com movimento reduzido, pulsa devagar em vez de girar. */
 export const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>(function Spinner(
-  { size = 'md', label = 'Carregando', decorative = false, className, ...props },
+  { size = 'md', tone = 'primary', label = 'Carregando', decorative = false, className, ...props },
   ref,
 ) {
   return (
@@ -24,6 +28,7 @@ export const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>(function Spinne
       ref={ref}
       className={cx('sk-spinner', className)}
       data-size={size}
+      data-tone={tone}
       {...(decorative ? { 'aria-hidden': true } : { role: 'status' })}
       {...props}
     >

@@ -63,7 +63,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       {...props}
     >
       {loading ? (
-        <Spinner size="sm" decorative className="sk-button__spinner" />
+        <Spinner size="sm" tone="current" decorative className="sk-button__spinner" />
       ) : (
         leftIcon && (
           <span className="sk-button__icon" aria-hidden="true">

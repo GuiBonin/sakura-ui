@@ -1,7 +1,8 @@
 import { forwardRef, useId, type HTMLAttributes, type ReactNode } from 'react';
 import { cx } from '../../utils/cx';
 
-export type ProgressTone = 'primary' | 'accent' | 'success' | 'warning' | 'danger';
+export type ProgressTone =
+  'primary' | 'accent' | 'info' | 'success' | 'warning' | 'danger' | 'neutral';
 
 export interface ProgressBarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   /** Valor atual. Sem valor, a barra fica indeterminada. */

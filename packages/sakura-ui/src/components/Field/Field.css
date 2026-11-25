@@ -63,6 +63,8 @@
 .sk-control[data-size='sm'] {
   --sk-control-height: 2rem;
   font-size: var(--sk-text-xs);
+  /* Mesmo raio do botão pequeno, que tem a mesma altura. */
+  border-radius: var(--sk-radius-sm);
 }
 
 .sk-control[data-size='lg'] {

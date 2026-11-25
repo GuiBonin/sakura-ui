@@ -47,7 +47,6 @@
 }
 
 .sk-button:disabled {
-  opacity: 0.5;
   cursor: not-allowed;
 }
 
@@ -107,8 +106,27 @@
 .sk-button[data-variant='danger'] {
   --sk-button-bg: var(--sk-danger);
   --sk-button-bg-hover: var(--sk-danger-hover);
-  --sk-button-bg-active: var(--sk-danger-hover);
+  --sk-button-bg-active: var(--sk-danger-active);
   --sk-button-fg: var(--sk-danger-fg);
+}
+
+/*
+ * Desabilitado: cinza da superfície com texto atenuado, sem baixar a opacidade
+ * do botão inteiro (que deixava texto e ícone abaixo do contraste legível).
+ * Fica depois das variantes para vencer as variáveis delas.
+ */
+.sk-button:disabled {
+  --sk-button-bg: var(--sk-surface-2);
+  --sk-button-fg: var(--sk-fg-muted);
+  --sk-button-border: transparent;
+}
+
+.sk-button[data-variant='ghost']:disabled {
+  --sk-button-bg: transparent;
+}
+
+.sk-button[data-variant='outline']:disabled {
+  --sk-button-border: var(--sk-border);
 }
 
 .sk-button__icon {

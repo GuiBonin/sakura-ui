@@ -1,7 +1,8 @@
 import { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
 import { cx } from '../../utils/cx';
 
-export type BadgeTone = 'neutral' | 'primary' | 'accent' | 'success' | 'warning' | 'danger';
+export type BadgeTone =
+  'neutral' | 'primary' | 'accent' | 'info' | 'success' | 'warning' | 'danger';
 export type BadgeAppearance = 'soft' | 'solid' | 'outline';
 export type BadgeSize = 'sm' | 'md';
 

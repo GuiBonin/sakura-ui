@@ -65,7 +65,12 @@ export {
   type ProgressTone,
 } from './components/ProgressBar/ProgressBar';
 export { Skeleton, type SkeletonProps, type SkeletonVariant } from './components/Skeleton/Skeleton';
-export { Spinner, type SpinnerProps, type SpinnerSize } from './components/Spinner/Spinner';
+export {
+  Spinner,
+  type SpinnerProps,
+  type SpinnerSize,
+  type SpinnerTone,
+} from './components/Spinner/Spinner';
 export { Checkbox, type CheckboxProps } from './components/Checkbox/Checkbox';
 export { Input, type InputProps, type InputSize } from './components/Input/Input';
 export { Select, type SelectOption, type SelectProps } from './components/Select/Select';

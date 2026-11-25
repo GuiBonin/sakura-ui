@@ -232,6 +232,26 @@ describe('navegação e layout', () => {
     expect(document.documentElement).toHaveAttribute('data-theme', 'dark');
   });
 
+  it('a página de temas lista os sete tons com os tokens de cada um', () => {
+    renderAt('/temas');
+    const table = screen.getByRole('table');
+    const tones = ['primary', 'accent', 'info', 'success', 'warning', 'danger', 'neutral'];
+    for (const tone of tones) {
+      expect(within(table).getByRole('rowheader', { name: tone })).toBeInTheDocument();
+      expect(table).toHaveTextContent(`--sk-${tone}-soft-fg`);
+    }
+    expect(within(table).getAllByRole('row')).toHaveLength(tones.length + 1);
+  });
+
+  it('a página de temas explica os tokens de indicador e mostra o exemplo de tema', () => {
+    renderAt('/temas');
+    const article = screen.getByRole('article');
+    expect(article).toHaveTextContent('--sk-indicator');
+    expect(article).toHaveTextContent('--sk-warning-strong');
+    expect(article).toHaveTextContent('--sk-info: #1d6f72;');
+    expect(screen.getAllByRole('progressbar')).toHaveLength(2);
+  });
+
   it('o link do GitHub abre em nova aba com aviso', () => {
     renderAt('/');
     const link = screen.getAllByRole('link', { name: /GitHub/ })[0]!;

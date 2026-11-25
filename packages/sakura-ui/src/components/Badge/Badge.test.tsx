@@ -13,7 +13,7 @@ describe('Badge', () => {
     expect(badge).toHaveAttribute('data-size', 'md');
   });
 
-  it.each<BadgeTone>(['neutral', 'primary', 'accent', 'success', 'warning', 'danger'])(
+  it.each<BadgeTone>(['neutral', 'primary', 'accent', 'info', 'success', 'warning', 'danger'])(
     'aplica o tom %s',
     (tone) => {
       render(<Badge tone={tone}>x</Badge>);
